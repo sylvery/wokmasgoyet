@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New UserTask{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'New Task Details',
+        actions: [
+            {
+                action_route: 'user_task_index',
+                action_class: 'warning',
+                link_class: 'dark',
+                label: 'back to tasks list',
+                link_options: { id: user_task.id },
+            },{
+                action_route: 'home',
+                label: 'back to home',
+                link_options: { id: user_task.id },
+            },
+        ]
+    } %}
+    <div class="row">
+        <div class="col-12">
+            {{ include('user_task/_form.html.twig', {'button_label': 'Save Task'}) }}
+        </div>
+    </div>
+{% endblock %}

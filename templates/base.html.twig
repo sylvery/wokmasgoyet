@@ -3,10 +3,22 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/jquery-ui.css">
+        <link rel="stylesheet" href="/css/styles.css">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <div class="container-fluid px-0">
+        {% include "main/nav.html.twig" %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery-ui.min.js"></script>
+    <script src="/js/scripts.js"></script>
+    {% block javascripts %}{% endblock %}
     </body>
 </html>

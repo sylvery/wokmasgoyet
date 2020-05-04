@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserTask index{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Tasks List',
+        actions: [
+            {
+                action_route: 'user_task_new',
+                action_class: 'success',
+                label: 'new task',
+                link_options: { id: 1 },
+            },{
+                action_route: 'home',
+                label: 'back to home',
+                link_options: { id: 1 },
+            },
+        ]
+    } %}
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-sm table-responsive-sm">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Completion Date</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user_task in user_tasks %}
+                    <tr>
+                        <td>{{ user_task.id }}</td>
+                        <td>{{ user_task.title }}</td>
+                        <td>{{ user_task.description }}</td>
+                        <td>{{ user_task.startDate ? user_task.startDate|date('Y-m-d') : '' }}</td>
+                        <td>{{ user_task.dueDate ? user_task.dueDate|date('Y-m-d') : '' }}</td>
+                        <td>
+                            {% if user_task.completionDate is not null %}
+                                Task completed on {{ user_task.completionDate ? user_task.completionDate|date('F j Y') : '' }}</td>
+                            {% else %}
+                                pending
+                            {% endif %}
+                        <td class="btn-group">
+                            <a class="btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': user_task.id}) }}">show</a>
+                            <a class="btn btn-outline-warning btn-sm" role="button" href="{{ path('user_task_edit', {'id': user_task.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}UserTask{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Task Details',
+        actions: [
+            {
+                action_route: 'user_task_edit',
+                action_class: 'info',
+                label: 'edit task',
+                link_options: { id: user_task.id },
+            },{
+                action_route: 'user_task_new',
+                action_class: 'success',
+                label: 'new task',
+                link_options: { id: user_task.id },
+            },{
+                action_route: 'user_task_index',
+                action_class: 'warning',
+                label: 'back to tasks list',
+                link_class: 'dark',
+                link_options: { id: user_task.id },
+            },{
+                action_route: 'home',
+                label: 'back to home',
+                link_options: { id: user_task.id },
+            },
+        ]
+    } %}
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ user_task.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <td>{{ user_task.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ user_task.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Start Date</th>
+                        <td>{{ user_task.startDate ? user_task.startDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Due Date</th>
+                        <td>{{ user_task.dueDate ? user_task.dueDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Completion Date</th>
+                        <td>{{ user_task.completionDate ? user_task.completionDate|date('Y-m-d') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{ include('user_task/_delete_form.html.twig') }}
+{% endblock %}
