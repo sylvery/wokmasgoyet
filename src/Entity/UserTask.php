@@ -48,9 +48,20 @@ class UserTask
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="tasks")
+     */
+    private $owner;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TaskMilestones", mappedBy="task")
+     */
+    private $taskMilestones;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->taskMilestones = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,6 +151,49 @@ class UserTask
     public function setCompletionDate(?\DateTimeInterface $completionDate): self
     {
         $this->completionDate = $completionDate;
+
+        return $this;
+    }
+
+    public function getOwner(): ?Member
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?Member $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TaskMilestones[]
+     */
+    public function getTaskMilestones(): Collection
+    {
+        return $this->taskMilestones;
+    }
+
+    public function addTaskMilestone(TaskMilestones $taskMilestone): self
+    {
+        if (!$this->taskMilestones->contains($taskMilestone)) {
+            $this->taskMilestones[] = $taskMilestone;
+            $taskMilestone->setTask($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTaskMilestone(TaskMilestones $taskMilestone): self
+    {
+        if ($this->taskMilestones->contains($taskMilestone)) {
+            $this->taskMilestones->removeElement($taskMilestone);
+            // set the owning side to null (unless already changed)
+            if ($taskMilestone->getTask() === $this) {
+                $taskMilestone->setTask(null);
+            }
+        }
 
         return $this;
     }

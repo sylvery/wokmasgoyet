@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\UserTask;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -39,10 +40,14 @@ class UserTaskType extends AbstractType
                 'label_attr' => ['class' => 'text-muted small'],
                 'widget' => 'single_text',
                 'required' => false,
+                ])
+            ->add('owner', EntityType::class, [
+                'attr' => ['class' => 'form-control'],
+                'class' => 'App\Entity\Member',
             ])
-            // ->add('user', EntityType::class, [
-            //     'class' => 'App\Entity\AppUser',
-            // ])
+            ->add('taskMilestones', CollectionType::class, [
+                'attr' => ['class' => 'form-control'],
+            ])
         ;
     }
 
