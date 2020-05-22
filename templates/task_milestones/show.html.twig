@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TaskMilestones{% endblock %}
+
+{% block body %}
+    <h1>TaskMilestones</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ task_milestone.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ task_milestone.title }}</td>
+            </tr>
+            <tr>
+                <th>Completed</th>
+                <td>{{ task_milestone.completed ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('task_milestones_index') }}">back to list</a>
+
+    <a href="{{ path('task_milestones_edit', {'id': task_milestone.id}) }}">edit</a>
+
+    {{ include('task_milestones/_delete_form.html.twig') }}
+{% endblock %}

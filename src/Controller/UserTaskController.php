@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\TaskMilestones;
 use App\Entity\UserTask;
 use App\Form\UserTaskType;
 use App\Repository\UserTaskRepository;
@@ -36,10 +37,17 @@ class UserTaskController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            if ($form->getData()->getTaskMilestones()) {
+                foreach ($form->getData()->getTaskMilestones() as $milestone) {
+                    $taskMilestone = new TaskMilestones();
+                    $taskMilestone->setTitle($milestone);
+                    $entityManager->persist($taskMilestone);
+                }
+            }
             $entityManager->persist($userTask);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_task_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user_task/new.html.twig', [
@@ -67,9 +75,20 @@ class UserTaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->getData()->getTaskMilestones()) {
+                foreach ($form->getData()->getTaskMilestones() as $milestone) {
+                    $tm = new TaskMilestones();
+                    $tm->setTitle($milestone->getTitle());
+                    $userTask->addTaskMilestone($tm);
+                    // $taskMilestone->setTitle($milestone);
+                    // $entityManager->persist($taskMilestone);
+                    // var_dump($milestone);
+                    // exit;
+                }
+            }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_task_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user_task/edit.html.twig', [

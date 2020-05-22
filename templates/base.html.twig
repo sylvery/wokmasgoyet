@@ -5,20 +5,25 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/jquery-ui.css">
-        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="/css/style.css">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body class="bg-secondary text-light">
     <div class="container-fluid px-0">
         {% include "main/nav.html.twig" %}
         <div class="container">
             {% block body %}{% endblock %}
+            <div id="date"></div>
         </div>
     </div>
     <script src="/js/bootstrap.bundle.js"></script>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
     <script src="/js/scripts.js"></script>
+    <script>
+        $mdate = new Date();
+        $('#date').append($mdate);
+    </script>
     {% block javascripts %}{% endblock %}
     </body>
 </html>

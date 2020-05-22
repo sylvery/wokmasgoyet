@@ -22,7 +22,7 @@ class TaskMilestones
     private $title;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $completed;
 
@@ -30,6 +30,11 @@ class TaskMilestones
      * @ORM\ManyToOne(targetEntity="App\Entity\UserTask", inversedBy="taskMilestones")
      */
     private $task;
+
+    public function __toStirng()
+    {
+        return $this->getTitle();
+    }
 
     public function getId(): ?int
     {

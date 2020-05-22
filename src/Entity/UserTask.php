@@ -54,14 +54,24 @@ class UserTask
     private $owner;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TaskMilestones", mappedBy="task")
+     * @ORM\OneToMany(targetEntity="App\Entity\TaskMilestones", mappedBy="task", cascade={"all"})
      */
     private $taskMilestones;
+
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $priority;
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
         $this->taskMilestones = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
     public function getId(): ?int
@@ -194,6 +204,18 @@ class UserTask
                 $taskMilestone->setTask(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): self
+    {
+        $this->priority = $priority;
 
         return $this;
     }

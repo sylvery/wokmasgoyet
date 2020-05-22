@@ -34,16 +34,31 @@
             <table class="table">
                 <tbody>
                     <tr>
-                        <th>Id</th>
-                        <td>{{ user_task.id }}</td>
-                    </tr>
-                    <tr>
                         <th>Title</th>
                         <td>{{ user_task.title }}</td>
                     </tr>
                     <tr>
                         <th>Description</th>
                         <td>{{ user_task.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Milestones</th>
+                        <td class="list-group">
+                        {% for milestone in user_task.taskMilestones %}
+                            <a href="{{path('task_milestones_edit', {id: milestone.id})}}" class="list-group-item list-group-item-action">
+                                <span>
+                                    {{ milestone.title }}
+                                </span>
+                                <span class="float-right">
+                                    {% if milestone.completed is null %}
+                                        pending
+                                    {% else %}
+                                        completed    
+                                    {% endif %}
+                                </span>
+                            </a>
+                        {% endfor %}
+                        </td>
                     </tr>
                     <tr>
                         <th>Start Date</th>

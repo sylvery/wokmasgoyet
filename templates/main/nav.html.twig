@@ -7,14 +7,20 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleMainNav">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{{path('home')}}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{path('user_task_index')}}">Tasks</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
-        <a href="{{path('app_login')}}" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+        {% if app.user %}
+            <a href="{{path('app_logout')}}" class="btn btn-danger my-2 my-sm-0">Sign out</a>
+        {% else %}
+            <a href="{{path('app_login')}}" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+        {% endif %}
     </div>
 </nav>
