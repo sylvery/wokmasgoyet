@@ -69,6 +69,10 @@ class TaskMilestonesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $referer = $request->get('referer');
+            if ($referer) {
+                return $this->redirect($referer);
+            }
 
             return $this->redirectToRoute('task_milestones_index');
         }

@@ -24,7 +24,9 @@ class UserTaskType extends AbstractType
                     'medium' => 2,
                     'low' => 3
                 ],
-                'attr' => [ 'class' => 'form-control'],
+                'multiple' => false,
+                'expanded' => true,
+                'attr' => [ 'class' => 'd-flex justify-content-between align-items-center'],
                 'label_attr' => [ 'class' => 'small'],
             ])
             ->add('title', TextType::class, [
@@ -51,16 +53,13 @@ class UserTaskType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,
                 ])
-            ->add('owner', EntityType::class, [
-                'attr' => ['class' => 'form-control'],
-                'label_attr' => ['class' => 'small'],
-                'class' => 'App\Entity\Member',
-            ])
             ->add('taskMilestones', CollectionType::class, [
-                'entry_type' => TaskMilestonesType::class,
+                'entry_type' => TaskMilestonesFullType::class,
                 'allow_add' => true,
-                'entry_options' => ['label' => false],
-                'label_attr' => ['class' => 'small'],
+                'label' => 'Milestones',
+                'entry_options' => ['label' => false, 'attr' => ['class' => 'row']],
+                'label_attr' => ['class' => 'col h2'],
+                'attr' => ['class' => 'col-6'],
             ])
         ;
     }

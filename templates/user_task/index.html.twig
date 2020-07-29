@@ -23,9 +23,7 @@
             <table class="table table-sm table-responsive-sm">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Title</th>
-                        <th>Description</th>
                         <th>Start Date</th>
                         <th>Due Date</th>
                         <th>Completion Date</th>
@@ -35,14 +33,19 @@
                 <tbody>
                 {% for user_task in user_tasks %}
                     <tr>
-                        <td>{{ user_task.id }}</td>
                         <td>{{ user_task.title }}</td>
-                        <td>{{ user_task.description }}</td>
                         <td>{{ user_task.startDate ? user_task.startDate|date('Y-m-d') : '' }}</td>
-                        <td>{{ user_task.dueDate ? user_task.dueDate|date('Y-m-d') : '' }}</td>
+                        <td>
+                            {% if not user_task.completionDate %}
+                                {{ user_task.duedate|date('F j') }}
+                                {% if date()|date('d') > user_task.duedate|date('d') %}
+                                    <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
+                                {% endif %}
+                            {% endif %}
+                        </td>
                         <td>
                             {% if user_task.completionDate is not null %}
-                                Task completed on {{ user_task.completionDate ? user_task.completionDate|date('F j Y') : '' }}</td>
+                                Completed on {{ user_task.completionDate ? user_task.completionDate|date('F j Y') : '' }}</td>
                             {% else %}
                                 pending
                             {% endif %}

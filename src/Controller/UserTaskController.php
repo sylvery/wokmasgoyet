@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TaskMilestones;
 use App\Entity\UserTask;
 use App\Form\UserTaskType;
+use App\Repository\TaskMilestonesRepository;
 use App\Repository\UserTaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class UserTaskController extends AbstractController
     public function index(UserTaskRepository $userTaskRepository): Response
     {
         return $this->render('user_task/index.html.twig', [
-            'user_tasks' => $userTaskRepository->findAll(),
+            'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
         ]);
     }
 
@@ -39,11 +40,12 @@ class UserTaskController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             if ($form->getData()->getTaskMilestones()) {
                 foreach ($form->getData()->getTaskMilestones() as $milestone) {
-                    $taskMilestone = new TaskMilestones();
-                    $taskMilestone->setTitle($milestone);
-                    $entityManager->persist($taskMilestone);
+                    // $taskMilestone = new TaskMilestones();
+                    $milestone->setTask($userTask);
+                    $entityManager->persist($milestone);
                 }
             }
+            $userTask->setOwner($this->getUser());
             $entityManager->persist($userTask);
             $entityManager->flush();
 
@@ -69,7 +71,7 @@ class UserTaskController extends AbstractController
     /**
      * @Route("/{id}/edit", name="user_task_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, UserTask $userTask): Response
+    public function edit(Request $request, UserTask $userTask, TaskMilestonesRepository $tmr): Response
     {
         $form = $this->createForm(UserTaskType::class, $userTask);
         $form->handleRequest($request);
@@ -77,18 +79,23 @@ class UserTaskController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->getData()->getTaskMilestones()) {
                 foreach ($form->getData()->getTaskMilestones() as $milestone) {
-                    $tm = new TaskMilestones();
-                    $tm->setTitle($milestone->getTitle());
-                    $userTask->addTaskMilestone($tm);
-                    // $taskMilestone->setTitle($milestone);
-                    // $entityManager->persist($taskMilestone);
-                    // var_dump($milestone);
-                    // exit;
+                    // look for milestone in db,
+                    if (!$milestone->getId()) {
+                        // create a new milestone and persist if non-existent
+                        $tm = new TaskMilestones();
+                        $tm->setTitle($milestone->getTitle());
+                        $userTask->addTaskMilestone($tm);
+                    } else {
+                        // $qm = $tmr->find($milestone);
+                        // $qm->setTitle($milestone->getTitle());
+                        // $qm->setCompleted($milestone->getCompleted());
+                        // $userTask->addTaskMilestone($qm);
+                    }
                 }
             }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('user_task_show', ['id' => $userTask->getId()]);
         }
 
         return $this->render('user_task/edit.html.twig', [

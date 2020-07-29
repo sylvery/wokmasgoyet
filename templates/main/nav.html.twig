@@ -7,7 +7,7 @@
         </button>
         <div class="collapse navbar-collapse" id="collapsibleMainNav">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_USER') %}
                 <li class="nav-item active">
                     <a class="nav-link" href="{{path('home')}}">Home</a>
                 </li>

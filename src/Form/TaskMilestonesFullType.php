@@ -16,15 +16,20 @@ class TaskMilestonesFullType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'attr' => [ 'class' => 'form-control'],
-                'row_attr' => [ 'class' => 'mb-2'],
+                'row_attr' => [ 'class' => 'mb-2 col-md-9'],
                 'label_attr' => [ 'class' => 'small'],
             ])
             ->add('completed', ChoiceType::class, [
+                'choices' => [
+                    'Pending' => false,
+                    'Completed' => true,
+                ],
                 'attr' => [ 'class' => 'form-control'],
-                'row_attr' => [ 'class' => 'mb-2'],
+                'row_attr' => [ 'class' => 'mb-2 col-md-3'],
                 'label_attr' => [ 'class' => 'small'],
             ])
             // ->add('task')
+            ->setAttribute('class', 'row')
         ;
     }
 

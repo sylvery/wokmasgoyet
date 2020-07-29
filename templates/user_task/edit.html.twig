@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit UserTask{% endblock %}
+{% block title %}Edit Task {{ parent() }}{% endblock %}
 
 {% block body %}
     {% include "main/page_header.html.twig" with {
