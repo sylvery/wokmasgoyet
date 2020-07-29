@@ -1,0 +1,34 @@
+{{ form_start(form) }}
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="row">
+                {{ form_row(form.title, {'row_attr': {'class': 'mb-2 col-md-8'}}) }}
+                {{ form_row(form.priority, {'row_attr': {'class': 'mb-2 col-md-4'}}) }}
+            </div>
+        </div>
+        {{ form_row(form.description, {'row_attr': {'class': 'mb-2 col-12'}}) }}
+        {{ form_row(form.startDate, {'row_attr': {'class': 'mb-2 col-md-4 col-sm-12'}}) }}
+        {{ form_row(form.dueDate, {'row_attr': {'class': 'mb-2 col-md-4 col-sm-12'}}) }}
+        {{ form_row(form.completionDate, {'row_attr': {'class': 'mb-2 col-md-4 col-sm-12'}}) }}
+        {# {{ form_row(form.owner, {'row_attr': {'class': 'mb-2 col-12'}}) }} #}
+    </div>
+    <div class="row" id="taskMilestones" data-prototype="{{ form_widget(form.taskMilestones.vars.prototype)|e('html_attr') }}">
+        {% if form.taskMilestones is defined and form.taskMilestones is not null %}
+            <div class="col-12 list-group-flush">
+                {% for milestone in form.taskMilestones %}
+                    <div class="list-group-item list-group-item-action bg-{{milestone.completed == true ? 'success' : 'warning' }}">{{ form_row(milestone, {'attr': {'class': 'row'}}) }}</div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {{ form_row(form.taskMilestones)}}
+        {% endif %}
+    </div>
+    <div class="row mb-3">
+        <div class="col btn-group">
+            <button class="btn btn-success">{{ button_label|default('Save') }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}
+{% if form.vars.data.id is not null %}
+    {{ include('user_task/_delete_form.html.twig') }}
+{% endif %}

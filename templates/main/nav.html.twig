@@ -1,0 +1,26 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="{{path('home')}}">WMGY</a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleMainNav" aria-controls="collapsibleMainNav"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleMainNav">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                {% if is_granted('ROLE_USER') %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{path('home')}}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{path('user_task_index')}}">Tasks</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% if app.user %}
+            <a href="{{path('app_logout')}}" class="btn btn-danger my-2 my-sm-0">Sign out</a>
+        {% else %}
+            <a href="{{path('app_login')}}" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+        {% endif %}
+    </div>
+</nav>

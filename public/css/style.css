@@ -1,0 +1,25 @@
+@media (min-width:960px){
+    .brf-2{
+        border-right: 2px solid black;
+    }
+    .blf-2{
+        border-left: 2px solid black;
+    }
+}
+.jumbotron {
+    background: url('/img/jumbotron-bg.jpg') center;
+    background-size: cover;
+}
+
+.jumbotron #welcome {
+    background: linear-gradient(darkcyan 50%, aliceblue 50%);
+}
+
+.text-aliceblue {
+    color: aliceblue;
+}
+
+.card.bg-secondary.m-0.p-0:hover, .card.bg-secondary.m-0.p-0:active {
+    background-color: white !important;
+    color: black;
+}

@@ -1,0 +1,19 @@
+<div class="row mb-1 py-2">
+    <div class="col-12 btn-group d-flex justify-content-end">
+        {% if actions is defined %}
+        {% for item in actions %}
+            <span class="badge badge-pill badge-{{item.action_class|default('primary')}}">
+            {% if item.link_options is defined %}
+                <a href="{{path(item.action_route, item.link_options)}}" class="btn btn-sm text-{{item.link_class|default('light')}}">{{item.label}}</a>
+            {% else %}
+                <a href="{{path(item.action_route)}}" class="btn btn-sm text-{{item.link_class|default('light')}}">{{item.label}}</a>
+            {% endif %}
+            </span>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <hr class="border-warning col">
+    <div class="col-12 mb-2">
+        <span class="h1 text-warning">{{ page_title | default('Page Title')}}</span>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col">
+            {{ form_widget(form, {'attr': {'class': 'row'} }) }}
+            {# {{ form.completed is defined ? form_row(form.completed) : ''}} #}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-lg btn-success">{{ button_label|default('Save') }}</button>
+        </div>
+    </div>
+{{ form_end(form) }}

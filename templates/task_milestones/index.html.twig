@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TaskMilestones index{% endblock %}
+
+{% block body %}
+    <h1>TaskMilestones index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Completed</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for task_milestone in task_milestones %}
+            <tr>
+                <td>{{ task_milestone.id }}</td>
+                <td>{{ task_milestone.title }}</td>
+                <td>{{ task_milestone.completed ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('task_milestones_show', {'id': task_milestone.id}) }}">show</a>
+                    <a href="{{ path('task_milestones_edit', {'id': task_milestone.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('task_milestones_new') }}">Create new</a>
+{% endblock %}
