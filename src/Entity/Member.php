@@ -40,16 +40,6 @@ class Member implements UserInterface
      */
     private $tasks;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="members")
-     */
-    private $team;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Team", mappedBy="manager", cascade={"persist", "remove"})
-     */
-    private $manages;
-
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -163,36 +153,6 @@ class Member implements UserInterface
             if ($task->getOwner() === $this) {
                 $task->setOwner(null);
             }
-        }
-
-        return $this;
-    }
-
-    public function getTeam(): ?Team
-    {
-        return $this->team;
-    }
-
-    public function setTeam(?Team $team): self
-    {
-        $this->team = $team;
-
-        return $this;
-    }
-
-    public function getManages(): ?Team
-    {
-        return $this->manages;
-    }
-
-    public function setManages(?Team $manages): self
-    {
-        $this->manages = $manages;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newManager = null === $manages ? null : $this;
-        if ($manages->getManager() !== $newManager) {
-            $manages->setManager($newManager);
         }
 
         return $this;

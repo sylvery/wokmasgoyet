@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Weekly Tasks Report{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Weekly Tasks Report',
+        actions: [
+            {
+                action_route: 'user_task_new',
+                action_class: 'success',
+                label: 'new task',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    <div class="row">
+        <div class="col-12">
+            <p class="h2">Completed Tasks</p>
+            <table class="table table-sm table-responsive-sm" id="completedTasksTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Completion Date</th>
+                        <th class="d-print-none">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for task in completed_tasks %}
+                    {% if task.completionDate %}
+                        <tr>
+                            <td>
+                            <p class="h4">{{ task.title }}</p>
+                            <p><small>{{task.description}}</small></p>
+                            <p class="small">
+                            <span>Milestones</span>
+                            <ul class="list-group list-group-flush">
+                            {% for milestone in task.taskMilestones %}
+                                <li class="list-group-item bg-dark">{{milestone.title}}</li>
+                            {% endfor %}
+                            </ul>
+                            </p>
+                            </td>
+                            <td>
+                                {% if task.completionDate is not null %}
+                                    {% set difference = date(task.completionDate).diff(task.startDate) %}
+                                    Completed on {{ task.completionDate ? task.completionDate|date('F j Y') : '' }}. The Task took {{ difference.days }} days</td>
+                                {% else %}
+                                    pending
+                                {% endif %}
+                            <td class="btn-group d-print-none">
+                                <a class="btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
+                                {# <a class="btn btn-outline-warning btn-sm" role="button" href="{{ path('user_task_edit', {'id': task.id}) }}">edit</a> #}
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td colspan="5">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12">
+            <p class="h2">Pending Tasks</p>
+            <table class="table table-sm table-responsive-sm" id="pendingTasksTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th>Completion Date</th>
+                        <th class="d-print-none">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in pending_tasks %}
+                        <tr>
+                            <td>{{ task.title }}</td>
+                            <td>{{ task.startDate ? task.startDate|date('Y-m-d') : '' }}</td>
+                            <td>
+                                {{ task.duedate|date('F j') }}
+                                {% set duediff = date('now').diff(task.duedate) %}
+                                {% if duediff.days<0 %}
+                                    <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if task.completionDate is not null %}
+                                    Completed on {{ task.completionDate ? task.completionDate|date('F j Y') : '' }}</td>
+                                {% else %}
+                                    pending
+                                {% endif %}
+                            <td class="btn-group d-print-none">
+                                <a class="btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
+                                <a class="btn btn-outline-warning btn-sm" role="button" href="{{ path('user_task_edit', {'id': task.id}) }}">edit</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

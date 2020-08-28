@@ -2,7 +2,7 @@
     <div class="col-12 btn-group d-flex justify-content-end">
         {% if actions is defined %}
         {% for item in actions %}
-            <span class="badge badge-pill badge-{{item.action_class|default('primary')}}">
+            <span class="d-print-none badge badge-pill badge-{{item.action_class|default('primary')}}">
             {% if item.link_options is defined %}
                 <a href="{{path(item.action_route, item.link_options)}}" class="btn btn-sm text-{{item.link_class|default('light')}}">{{item.label}}</a>
             {% else %}

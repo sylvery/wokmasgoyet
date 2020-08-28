@@ -7,6 +7,9 @@ use App\Entity\UserTask;
 use App\Form\UserTaskType;
 use App\Repository\TaskMilestonesRepository;
 use App\Repository\UserTaskRepository;
+use DateInterval;
+use DateTime;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +27,22 @@ class UserTaskController extends AbstractController
     {
         return $this->render('user_task/index.html.twig', [
             'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
+        ]);
+    }
+    
+    /**
+     * @Route("/weekly", name="user_task_weekly", methods={"GET"})
+     */
+    public function weekly(UserTaskRepository $userTaskRepository): Response
+    {
+        $endDate = new DateTime('now', new DateTimeZone('Pacific/Port_Moresby'));
+        $startDate = $endDate->sub(new DateInterval('P7D'));
+        // var_dump($startDate);exit;
+        return $this->render('user_task/weekly_tasks.html.twig', [
+            'completed_tasks' => $userTaskRepository->findTasksCompletedByDates([
+                    'startDate' => $startDate->format('Y-m-d'),
+                ]),
+            'pending_tasks' => $userTaskRepository->findBy(['completionDate'=>null])
         ]);
     }
 

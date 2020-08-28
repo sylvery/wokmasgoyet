@@ -44,11 +44,6 @@ class UserTask
     private $completionDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\AppUser", inversedBy="userTasks")
-     */
-    private $user;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="tasks")
      */
     private $owner;
@@ -123,32 +118,6 @@ class UserTask
     public function setDueDate(\DateTimeInterface $dueDate): self
     {
         $this->dueDate = $dueDate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AppUser[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(AppUser $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(AppUser $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-        }
 
         return $this;
     }
