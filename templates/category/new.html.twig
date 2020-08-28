@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Category{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Add a New Task Category',
+        actions: [
+            {
+                action_route: 'category_index',
+                action_class: 'info',
+                label: 'back to categories list',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    <section class="row">
+        <div class="col-12">
+            {{ include('category/_form.html.twig') }}
+        </div>
+    </section>
+{% endblock %}

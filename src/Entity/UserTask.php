@@ -58,6 +58,11 @@ class UserTask
      */
     private $priority;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tasks")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->user = new ArrayCollection();
@@ -185,6 +190,18 @@ class UserTask
     public function setPriority(int $priority): self
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

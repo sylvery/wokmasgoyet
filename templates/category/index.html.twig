@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories Listings{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Task Categories List',
+        actions: [
+            {
+                action_route: 'category_new',
+                action_class: 'success',
+                label: 'add new category',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    <section class="row">
+        <div class="col-12">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Tasks</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.tasks.count }}</td>
+                        <td class="btn-group">
+                            <a class="btn btn-sm btn-info" href="{{ path('category_show', {'id': category.id}) }}">show</a>
+                            <a class="btn btn-sm btn-warning" href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

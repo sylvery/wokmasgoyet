@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: category.name,
+        actions: [
+            {
+                action_route: 'category_edit',
+                action_class: 'warning',
+                label: 'edit category',
+                link_options: {
+                    id: category.id
+                }
+            },{
+                action_route: 'category_new',
+                action_class: 'success',
+                label: 'add new category',
+            },{
+                action_route: 'category_index',
+                action_class: 'info',
+                label: 'back to categories list',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    <section class="row">
+        <div class="col">
+            <table class="table table-sm table-striped">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ category.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ category.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
