@@ -27,7 +27,12 @@ class UserTaskController extends AbstractController
     public function index(UserTaskRepository $userTaskRepository): Response
     {
         return $this->render('user_task/index.html.twig', [
-            'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
+            'user_tasks' => $userTaskRepository->createQueryBuilder('u')
+                ->where('u.owner = '.$this->getUser()->getId())
+                ->getQuery()
+                ->getResult()
+            ,
+            // 'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
         ]);
     }
     
@@ -41,12 +46,19 @@ class UserTaskController extends AbstractController
         $cats = $catRep->findAll();
         $completedTasks = $userTaskRepository->createQueryBuilder('u')
             ->where('u.completionDate >= :valA')
+            ->andWhere('u.owner = '.$this->getUser()->getId())
             ->setParameter('valA', $startDate)
             ->orderBy('u.id','ASC')
             ->getQuery()
             ->getResult()
         ;
-        $pendingTasks = $userTaskRepository->findBy(['completionDate'=>null]);
+        $pendingTasks = $userTaskRepository->createQueryBuilder('u')
+            ->where('u.completionDate is null')
+            ->andWhere('u.owner = '.$this->getUser()->getId())
+            ->orderBy('u.id','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
         $completedByCategory=[];
         foreach ($cats as $cat) {
             array_push($completedByCategory,[$cat->getName() => []]);

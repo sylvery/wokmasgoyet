@@ -3,9 +3,12 @@
 {% block title %}New Member{% endblock %}
 
 {% block body %}
-    <h1>Create new Member</h1>
-
-    {{ include('member/_form.html.twig') }}
-
-    <a href="{{ path('member_index') }}">back to list</a>
+    {% include "main/page_header.html.twig" with {
+        page_title: 'New Member',
+    } %}
+    <section class="row">
+        <div class="col">
+            {{ include('member/_form.html.twig') }}
+        </div>
+    </section>
 {% endblock %}
