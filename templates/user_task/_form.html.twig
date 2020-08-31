@@ -2,8 +2,9 @@
     <div class="row mb-3">
         <div class="col-12">
             <div class="row">
-                {{ form_row(form.title, {'row_attr': {'class': 'mb-2 col-md-8'}}) }}
-                {{ form_row(form.priority, {'row_attr': {'class': 'mb-2 col-md-4'}}) }}
+                {{ form_row(form.title, {'row_attr': {'class': 'mb-2 col-md-6'}}) }}
+                {{ form_row(form.category, {'row_attr': {'class': 'mb-2 col-md-3'}}) }}
+                {{ form_row(form.priority, {'row_attr': {'class': 'mb-2 col-md-3'}}) }}
             </div>
         </div>
         {{ form_row(form.description, {'row_attr': {'class': 'mb-2 col-12'}}) }}

@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Weekly Tasks Report{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Weekly Tasks Report',
+        display_size: 4,
+        actions: [
+            {
+                action_route: 'user_task_new',
+                action_class: 'success',
+                label: 'new task',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    <div class="row">
+        <div class="col-12 bg-dark">
+            <p class="h2">Summary</p>
+        </div>
+        <div class="col-12">
+            <table class="table table-sm table-responsive-sm" id="completedTasksTable">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Tasks Completed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in comcat %}
+                    <tr>
+                        <td>
+                            {{row|keys|json_encode()|replace({'[' : '',']' : '','"' : ''})}}
+                        </td>
+                        <td>
+                        {% for item in row %}
+                            {{item|length}}
+                        {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 bg-dark">
+            <p class="h2">Completed Tasks</p>
+        </div>
+        <div class="col-12">
+            <table class="table table-striped table-sm table-responsive-sm" id="completedTasksTable">
+                <tbody>
+                {% for task in completed_tasks %}
+                    {% if task.completionDate %}
+                        <tr>
+                            <td>
+                                <p class="h4"><span class="text-uppercase">{{task.category}}: </span>{{ task.title }}</p>
+                                <div class="small">
+                                    <p>{{task.description}}</p>
+                                    <p class="em">
+                                        <span>Sub tasks completed: </span>
+                                        <span>
+                                        {% for milestone in task.taskMilestones %}
+                                            {{milestone.title}}, 
+                                        {% endfor %}
+                                        </span>
+                                    </p>
+                                </div>
+                                <a class="d-print-none btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
+                            </td>
+                            <td width="30%">
+                                {% set difference = date(task.completionDate).diff(task.startDate) %}
+                                Completed on {{ task.completionDate|date('F j Y') }}. The Task took {{ difference.days }} days
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% else %}
+                    <tr>
+                        <td>no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 bg-dark">
+            <p class="h2">Pending Tasks</p>
+        </div>
+        <div class="col-12">
+            <table class="table table-sm table-responsive-sm table-hover" id="pendingTasksTable">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Start Date</th>
+                        <th>Due Date</th>
+                        <th class="d-print-none">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in pending_tasks %}
+                        <tr>
+                            <td><span class="text-uppercase">{{task.category}}: </span>{{ task.title }}</td>
+                            <td>{{ task.startDate ? task.startDate|date('Y-m-d') : '' }}</td>
+                            <td>
+                                {{ task.duedate|date('F j') }}
+                                {% set duediff = date('now').diff(task.duedate) %}
+                                {% if duediff.days<0 %}
+                                    <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
+                                {% endif %}
+                            </td>
+                            <td class="btn-group d-print-none">
+                                <a class="btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
+                            </td>
+                        </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

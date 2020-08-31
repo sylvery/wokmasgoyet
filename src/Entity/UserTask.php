@@ -44,11 +44,6 @@ class UserTask
     private $completionDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\AppUser", inversedBy="userTasks")
-     */
-    private $user;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Member", inversedBy="tasks")
      */
     private $owner;
@@ -62,6 +57,11 @@ class UserTask
      * @ORM\Column(type="smallint", nullable=true)
      */
     private $priority;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tasks")
+     */
+    private $category;
 
     public function __construct()
     {
@@ -123,32 +123,6 @@ class UserTask
     public function setDueDate(\DateTimeInterface $dueDate): self
     {
         $this->dueDate = $dueDate;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|AppUser[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(AppUser $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(AppUser $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-        }
 
         return $this;
     }
@@ -216,6 +190,18 @@ class UserTask
     public function setPriority(int $priority): self
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\UserTask;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,22 +20,40 @@ class UserTaskRepository extends ServiceEntityRepository
         parent::__construct($registry, UserTask::class);
     }
 
-    // /**
-    //  * @return UserTask[] Returns an array of UserTask objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return UserTask[] Returns an array of UserTask objects
+     */
+    public function findTasksCompletedByDates($startDate)
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
+            ->select('c.name,count(c),count(u)')
+            ->join('u.category','c')
+            ->andWhere('u.completionDate >= :valA')
+            // ->orWhere('u.completionDate <= :valB')
+            ->setParameter('valA', $startDate['startDate'])
+            // ->setParameter('valB', $endDate)
             ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+            ->groupBy('c.name,u')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    /**
+     * @return UserTask[] Returns an array of UserTask objects
+     */
+    public function findAllPendingTasks($startDate)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.startDate >= :valA')
+            // ->orWhere('u.completionDate <= :valB')
+            ->setParameter('valA', $startDate['startDate'])
+            // ->setParameter('valB', $endDate)
+            ->orderBy('u.id', 'ASC')
+            // ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
     /*
     public function findOneBySomeField($value): ?UserTask

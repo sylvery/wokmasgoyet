@@ -5,8 +5,12 @@ namespace App\Controller;
 use App\Entity\TaskMilestones;
 use App\Entity\UserTask;
 use App\Form\UserTaskType;
+use App\Repository\CategoryRepository;
 use App\Repository\TaskMilestonesRepository;
 use App\Repository\UserTaskRepository;
+use DateInterval;
+use DateTime;
+use DateTimeZone;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +28,47 @@ class UserTaskController extends AbstractController
     {
         return $this->render('user_task/index.html.twig', [
             'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
+        ]);
+    }
+    
+    /**
+     * @Route("/weekly", name="user_task_weekly", methods={"GET"})
+     */
+    public function weekly(UserTaskRepository $userTaskRepository, CategoryRepository $catRep): Response
+    {
+        $endDate = new DateTime('now', new DateTimeZone('Pacific/Port_Moresby'));
+        $startDate = $endDate->sub(new DateInterval('P7D'));
+        $cats = $catRep->findAll();
+        $completedTasks = $userTaskRepository->createQueryBuilder('u')
+            ->where('u.completionDate >= :valA')
+            ->setParameter('valA', $startDate)
+            ->orderBy('u.id','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $pendingTasks = $userTaskRepository->findBy(['completionDate'=>null]);
+        $completedByCategory=[];
+        foreach ($cats as $cat) {
+            array_push($completedByCategory,[$cat->getName() => []]);
+        }
+        foreach ($completedTasks as $key => $task) {
+            foreach ($completedByCategory as $catekey => $cateval) {
+                // var_dump(
+                //     key($cateval),
+                //     // $task->getCategory()->getName(),
+                // );
+                if (key($cateval) === $task->getCategory()->getName()) {
+                    array_push($completedByCategory[$catekey][key($cateval)],$task);
+                }
+            }
+            foreach ($task as $singletask) {
+                var_dump($singletask);
+            }
+        }
+        return $this->render('user_task/weekly_tasks.html.twig', [
+            'completed_tasks' => $completedTasks,
+            'pending_tasks' => $pendingTasks,
+            'comcat' => $completedByCategory,
         ]);
     }
 
