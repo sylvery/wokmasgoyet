@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\TaskMilestones;
 use App\Entity\UserTask;
 use App\Form\UserTaskType;
+use App\Repository\CategoryRepository;
 use App\Repository\TaskMilestonesRepository;
 use App\Repository\UserTaskRepository;
 use DateInterval;
@@ -33,16 +34,41 @@ class UserTaskController extends AbstractController
     /**
      * @Route("/weekly", name="user_task_weekly", methods={"GET"})
      */
-    public function weekly(UserTaskRepository $userTaskRepository): Response
+    public function weekly(UserTaskRepository $userTaskRepository, CategoryRepository $catRep): Response
     {
         $endDate = new DateTime('now', new DateTimeZone('Pacific/Port_Moresby'));
         $startDate = $endDate->sub(new DateInterval('P7D'));
-        // var_dump($startDate);exit;
+        $cats = $catRep->findAll();
+        $completedTasks = $userTaskRepository->createQueryBuilder('u')
+            ->where('u.completionDate >= :valA')
+            ->setParameter('valA', $startDate)
+            ->orderBy('u.id','ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $pendingTasks = $userTaskRepository->findBy(['completionDate'=>null]);
+        $completedByCategory=[];
+        foreach ($cats as $cat) {
+            array_push($completedByCategory,[$cat->getName() => []]);
+        }
+        foreach ($completedTasks as $key => $task) {
+            foreach ($completedByCategory as $catekey => $cateval) {
+                // var_dump(
+                //     key($cateval),
+                //     // $task->getCategory()->getName(),
+                // );
+                if (key($cateval) === $task->getCategory()->getName()) {
+                    array_push($completedByCategory[$catekey][key($cateval)],$task);
+                }
+            }
+            foreach ($task as $singletask) {
+                var_dump($singletask);
+            }
+        }
         return $this->render('user_task/weekly_tasks.html.twig', [
-            'completed_tasks' => $userTaskRepository->findTasksCompletedByDates([
-                    'startDate' => $startDate->format('Y-m-d'),
-                ]),
-            'pending_tasks' => $userTaskRepository->findBy(['completionDate'=>null])
+            'completed_tasks' => $completedTasks,
+            'pending_tasks' => $pendingTasks,
+            'comcat' => $completedByCategory,
         ]);
     }
 

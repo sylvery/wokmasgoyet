@@ -1,13 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Category{% endblock %}
+{% block title %}Update Category{% endblock %}
 
 {% block body %}
-    <h1>Edit Category</h1>
-
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('category_index') }}">back to list</a>
-
+    {% include "main/page_header.html.twig" with {
+        page_title: category.name,
+        actions: [
+            {
+                action_route: 'category_show',
+                action_class: 'warning',
+                label: 'cancel edit',
+                link_options: {
+                    id: category.id
+                }
+            },{
+                action_route: 'category_new',
+                action_class: 'success',
+                label: 'add new category',
+            },{
+                action_route: 'category_index',
+                action_class: 'info',
+                label: 'back to categories list',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    <section class="row">
+        <div class="col">
+            {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+        </div>
+    </section>
     {{ include('category/_delete_form.html.twig') }}
 {% endblock %}

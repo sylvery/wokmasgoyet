@@ -14,6 +14,6 @@
     </div>
     <hr class="border-warning col">
     <div class="col-12 mb-2">
-        <span class="h1 text-warning">{{ page_title | default('Page Title')}}</span>
+        <span class="h1 {{display_size is defined ? 'display-' ~ display_size : ''}} text-warning">{{ page_title | default('Page Title')}}</span>
     </div>
 </div>

@@ -26,12 +26,14 @@ class UserTaskRepository extends ServiceEntityRepository
     public function findTasksCompletedByDates($startDate)
     {
         return $this->createQueryBuilder('u')
+            ->select('c.name,count(c),count(u)')
+            ->join('u.category','c')
             ->andWhere('u.completionDate >= :valA')
             // ->orWhere('u.completionDate <= :valB')
             ->setParameter('valA', $startDate['startDate'])
             // ->setParameter('valB', $endDate)
             ->orderBy('u.id', 'ASC')
-            // ->setMaxResults(10)
+            ->groupBy('c.name,u')
             ->getQuery()
             ->getResult()
         ;

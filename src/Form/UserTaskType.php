@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\UserTask;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -30,6 +31,11 @@ class UserTaskType extends AbstractType
                 'label_attr' => [ 'class' => 'small'],
             ])
             ->add('title', TextType::class, [
+                'attr' => [ 'class' => 'form-control'],
+                'label_attr' => [ 'class' => 'small'],
+            ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
                 'attr' => [ 'class' => 'form-control'],
                 'label_attr' => [ 'class' => 'small'],
             ])
