@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-3">
                                 {{ item.duedate|date('F j') }}
-                                {% if date()|date('d') > item.duedate|date('d') %}
+                                {% if date()|date('md') > item.duedate|date('md') %}
                                     <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
                                 {% endif %}
                             </div>

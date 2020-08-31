@@ -73,7 +73,10 @@
                             </td>
                             <td width="30%">
                                 {% set difference = date(task.completionDate).diff(task.startDate) %}
-                                Completed on {{ task.completionDate|date('F j Y') }}. The Task took {{ difference.days }} days
+                                Completed on {{ task.completionDate|date('F j Y') }}. {{ difference.days == 0 ? 'The task was completed on the same day' : 'It took ' ~ difference.days ~ ' days to complete the task.' }}
+                                {% if task.completionDate|date('md') > task.duedate|date('md') %}
+                                    <span class="badge badge-pill badge-danger p-2 small text-small text-super">overdue</span>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endif %}

@@ -40,7 +40,7 @@
                         <td>
                             {% if not user_task.completionDate %}
                                 {{ user_task.duedate|date('F j') }}
-                                {% if date()|date('d') > user_task.duedate|date('d') %}
+                                {% if date()|date('md') > user_task.duedate|date('md') %}
                                     <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
                                 {% endif %}
                             {% endif %}
