@@ -12,24 +12,24 @@
                     <a class="nav-link" href="{{path('home')}}">Home</a>
                 </li>
                 <div class="dropdown nav-item open">
-                    <a class="btn btn-info dropdown-toggle" type="button" id="categoriesDropdownId" data-toggle="dropdown" aria-haspopup="true"
+                    <a class="btn btn-info dropdown-toggle" type="button" id="tasksDropdownId" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                                 Tasks
                             </a>
-                    <div class="dropdown-menu mt-0" aria-labelledby="categoriesDropdownId">
+                    <div class="dropdown-menu mt-0" aria-labelledby="tasksDropdownId">
                         <a class="dropdown-item" href="{{path('user_task_index')}}">List</a>
                         <a class="dropdown-item" href="{{path('user_task_weekly')}}">Weekly</a>
                         <a class="dropdown-item" href="{{path('user_task_new')}}">New</a>
-                        <div class="dropdown nav-item open">
-                            <a class="btn btn-success btn-block dropdown-toggle" type="button" id="categoriesDropdownId" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                        Categories
-                                    </a>
-                            <div class="dropdown-menu mt-0 navbar-dark dropdown-menu-right" aria-labelledby="categoriesDropdownId">
-                                <a class="dropdown-item" href="{{path('category_index')}}">List</a>
-                                <a class="dropdown-item" href="{{path('category_new')}}">New</a>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                <div class="dropdown nav-item open">
+                    <a class="btn btn-success btn-block dropdown-toggle" type="button" id="categoriesDropdownId" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                                Categories
+                            </a>
+                    <div class="dropdown-menu mt-0 navbar-dark dropdown-menu-right" aria-labelledby="categoriesDropdownId">
+                        <a class="dropdown-item" href="{{path('category_index')}}">List</a>
+                        <a class="dropdown-item" href="{{path('category_new')}}">New</a>
                     </div>
                 </div>
                 {% endif %}
