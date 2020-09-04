@@ -34,7 +34,7 @@
 
         // setup an "add a task milestone" link
         var $addTaskMilestoneButton = $('<button type="button" class="add_task_milestone btn btn-primary">Add a Milestone</button>');
-        var $newLinkLi = $('<div></div>').append($addTaskMilestoneButton);
+        var $newLinkLi = $('<div class="col-12 my-3"></div>').append($addTaskMilestoneButton);
 
         jQuery(document).ready(function() {
             // Get the ul that holds the collection of task milestones
@@ -74,7 +74,7 @@
             $collectionHolder.data('index', index + 1);
 
             // Display the form in the page in an li, before the "Add a tag" link li
-            var $newFormLi = $('<div></div>').append(newForm);
+            var $newFormLi = $('<div class="col-12"></div>').append(newForm);
             $newLinkLi.before($newFormLi);
         }
 
