@@ -140,7 +140,10 @@ class UserTaskController extends AbstractController
                     if (!$milestone->getId()) {
                         // create a new milestone and persist if non-existent
                         $tm = new TaskMilestones();
-                        $tm->setTitle($milestone->getTitle());
+                        $tm
+                            ->setTitle($milestone->getTitle())
+                            ->setCompleted($milestone->getCompleted())
+                        ;
                         $userTask->addTaskMilestone($tm);
                     } else {
                         // $qm = $tmr->find($milestone);
