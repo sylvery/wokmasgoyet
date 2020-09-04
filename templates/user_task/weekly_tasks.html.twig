@@ -98,6 +98,7 @@
                         <th>Title</th>
                         <th>Start Date</th>
                         <th>Due Date</th>
+                        <th>Completion</th>
                         <th class="d-print-none">actions</th>
                     </tr>
                 </thead>
@@ -112,6 +113,16 @@
                                 {% if duediff.days<0 %}
                                     <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
                                 {% endif %}
+                            </td>
+                            <td>
+                                {% set completedMilestones = 0 %}
+                                {% set totalMilestones = task.taskMilestones|length %}
+                                {% for milestone in task.taskMilestones %}
+                                    {% if milestone.completed %}
+                                        {% set completedMilestones = completedMilestones + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {{ (completedMilestones/totalMilestones * 100)|round(1, 'floor')}} %
                             </td>
                             <td class="btn-group d-print-none">
                                 <a class="btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
