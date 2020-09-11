@@ -2,11 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %} Wok Mas Go Yet</title>
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <title>{% block title %}{% endblock %} | Wok Mas Go Yet</title>
         <link rel="stylesheet" href="/css/jquery-ui.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-reboot.min.css">
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block stylesheets %}{% endblock %}
     </head>
     <body class="bg-secondary text-light pb-5">
@@ -19,7 +22,7 @@
     <div id="date" class="pb-5 container"></div>
     <script src="/js/jquery.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
-    <script src="/js/bootstrap.bundle.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
     <script src="/js/scripts.js"></script>
     <script>
         $mdate = new Date();
