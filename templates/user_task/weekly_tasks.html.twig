@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Weekly Tasks Report{% endblock %}
+{% block title %}Weekly Report{% endblock %}
 
 {% block body %}
     {% include "main/page_header.html.twig" with {
-        page_title: 'Weekly Tasks Report',
-        display_size: 4,
+        page_title: 'Weekly Report',
+        display_size: 1,
+        page_subtitle: 'Find below a comprehensive summary of the tasks that were completed during the week as well as some pending tasks which have been not been completed and have been scheduled for next week',
         actions: [
             {
                 action_route: 'user_task_new',
@@ -19,7 +20,7 @@
     } %}
     <div class="row">
         <div class="col-12 bg-dark">
-            <p class="h2">Summary</p>
+            <p class="h4">Summary</p>
         </div>
         <div class="col-12">
             <table class="table table-sm table-responsive-sm" id="completedTasksTable">
@@ -48,7 +49,7 @@
     </div>
     <div class="row">
         <div class="col-12 bg-dark">
-            <p class="h2">Completed Tasks</p>
+            <p class="h4">Completed Tasks</p>
         </div>
         <div class="col-12">
             <table class="table table-striped table-sm table-responsive-sm" id="completedTasksTable">
@@ -89,7 +90,7 @@
             </table>
         </div>
         <div class="col-12 bg-dark">
-            <p class="h2">Pending Tasks</p>
+            <p class="h4">Pending Tasks</p>
         </div>
         <div class="col-12">
             <table class="table table-sm table-responsive-sm table-hover" id="pendingTasksTable">
