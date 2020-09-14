@@ -4,13 +4,19 @@
 
 {% block body %}
     {% include "main/page_header.html.twig" with {
-        page_title: 'Your Tasks List',
+        page_title: 'Tasks List',
         actions: [
             {
+                action_route: 'user_task_weekly',
+                action_class: 'success',
+                label: 'view weekly report',
+            },{
                 action_route: 'user_task_new',
                 action_class: 'success',
                 label: 'new task',
-                link_options: { id: 1 },
+            },{
+                action_route: 'home',
+                label: 'back to home',
             },
         ]
     } %}

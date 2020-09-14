@@ -27,7 +27,7 @@ class UserTaskController extends AbstractController
     public function index(UserTaskRepository $userTaskRepository): Response
     {
         return $this->render('user_task/index.html.twig', [
-            'user_tasks' => $userTaskRepository->createQueryBuilder('u')
+            'tasks' => $userTaskRepository->createQueryBuilder('u')
                 ->where('u.owner = '.$this->getUser()->getId())
                 ->getQuery()
                 ->getResult()

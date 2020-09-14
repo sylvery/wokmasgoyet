@@ -16,8 +16,6 @@ class MainController extends AbstractController
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
         }
-        return $this->render('main/index.html.twig', [
-            'tasks' => $tr->findBy(['owner' => $this->getUser()], $orderBy = ['priority' => 'asc']),
-        ]);
+        return $this->redirectToRoute('user_task_index');
     }
 }
