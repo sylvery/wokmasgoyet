@@ -59,8 +59,8 @@
                         <tr>
                             <td>
                                 <p class="h4"><span class="text-uppercase">{{task.category}}: </span>{{ task.title }}</p>
-                                <div class="small">
-                                    <p>{{task.description}}</p>
+                                <div>
+                                    <p>{{task.description|raw}}</p>
                                     <p class="em">
                                         <span>Sub tasks completed: </span>
                                         <span>
@@ -76,7 +76,7 @@
                                 {% set difference = date(task.completionDate).diff(task.startDate) %}
                                 Completed on {{ task.completionDate|date('F j Y') }}. {{ difference.days == 0 ? 'The task was completed on the same day' : 'It took ' ~ difference.days ~ ' days to complete the task.' }}
                                 {% if task.completionDate|date('md') > task.duedate|date('md') %}
-                                    <span class="badge badge-pill badge-danger p-2 small text-small text-super">overdue</span>
+                                    <span class="badge badge-pill badge-danger p-2 text-super">overdue</span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -112,7 +112,7 @@
                                 {{ task.duedate|date('F j') }}
                                 {% set duediff = date('now').diff(task.duedate) %}
                                 {% if duediff.days<0 %}
-                                    <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
+                                    <span class="badge badge-pill badge-danger p-2 text-super">overdue</span>
                                 {% endif %}
                             </td>
                             <td>
