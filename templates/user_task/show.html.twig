@@ -36,7 +36,7 @@
                 <div class="card-body">
                     <h4 class="card-title">{{ user_task.title }} <span class="small float-right"><span class="small">priority </span><span class="text-{{ user_task.priority == 1 ? 'danger' : user_task.priority == 2 ? 'warning' : 'info' }}">{{ user_task.priority == 1 ? 'high' : user_task.priority == 2 ? 'med' : 'low' }}</span></span></h4>
                     <div class="card-text">
-                    <p>{{ user_task.description }}</p>
+                    <div>{{ user_task.description|raw }}</div>
                     <p class="row">
                         <span class="col">Start {{ user_task.startDate ? user_task.startDate|date('F j Y') : '' }}</span> |
                         <span class="col">Due {{ user_task.dueDate ? user_task.dueDate|date('F j Y') : '' }}</span> |
