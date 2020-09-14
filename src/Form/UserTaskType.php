@@ -9,8 +9,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -39,7 +39,10 @@ class UserTaskType extends AbstractType
                 'attr' => [ 'class' => 'form-control'],
                 'label_attr' => [ 'class' => 'small'],
             ])
-            ->add('description', TextareaType::class, [
+            ->add('description', CKEditorType::class, [
+                'config' => [
+                    'uiColor' => '#FFFFFF',
+                ],
                 'attr' => [ 'class' => 'form-control'],
                 'label_attr' => [ 'class' => 'small'],
             ])
