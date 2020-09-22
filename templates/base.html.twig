@@ -3,16 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %} | Wok Mas Go Yet</title>
-        <link rel="stylesheet" href="/css/jquery-ui.css">
+        {{ encore_entry_link_tags('app') }}
+        {# <link rel="stylesheet" href="/css/jquery-ui.css">
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/bootstrap-grid.min.css">
         <link rel="stylesheet" href="/css/bootstrap-reboot.min.css">
         <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" type="text/css" media="print" href="/css/print.css">
+        <link rel="stylesheet" type="text/css" media="print" href="/css/print.css"> #}
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block stylesheets %}{% endblock %}
     </head>
-    <body class="bg-secondary text-light pb-5">
+    <body class="pb-5">
     <div class="container-fluid px-0">
         {% include "main/nav.html.twig" %}
         <div class="container">
@@ -28,6 +29,7 @@
         $mdate = new Date();
         $('#date').append($mdate);
     </script>
+    {{ encore_entry_script_tags('app') }}
     {% block javascripts %}{% endblock %}
     </body>
 </html>

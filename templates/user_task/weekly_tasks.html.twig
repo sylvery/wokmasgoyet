@@ -6,7 +6,7 @@
     {% include "main/page_header.html.twig" with {
         page_title: 'Weekly Report',
         display_size: 1,
-        page_subtitle: 'Find below a comprehensive summary of the tasks that were completed during the week as well as some pending tasks which have been not been completed and have been scheduled for next week',
+        page_subtitle: 'Find below a comprehensive summary of the tasks that were completed during the week as well as some pending tasks which have been not been completed and have been scheduled for the following week',
         actions: [
             {
                 action_route: 'user_task_new',
@@ -18,124 +18,83 @@
             },
         ]
     } %}
-    <div class="row">
-        <div class="col-12 bg-dark">
-            <p class="h4">Summary</p>
-        </div>
+    <div class="row d-none">
         <div class="col-12">
-            <table class="table table-sm table-responsive-sm" id="completedTasksTable">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Tasks Completed</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for row in comcat %}
-                    <tr>
-                        <td>
-                            {{row|keys|json_encode()|replace({'[' : '',']' : '','"' : ''})}}
-                        </td>
-                        <td>
-                        {% for item in row %}
-                            {{item|length}}
-                        {% endfor %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            <p class="h2">Summary</p>
+            {% for row in comcat %}
+                {% for item in row %}
+                    <p class="h4">{{ item|length > 0 ? row|keys|json_encode()|replace({'[' : '',']' : '','"' : ''}) ~ ' ' ~ item|length ~ ' tasks completed' : ''}}<p>
+                {% endfor %}
+            {% endfor %}
         </div>
     </div>
     <div class="row">
-        <div class="col-12 bg-dark">
-            <p class="h4">Completed Tasks</p>
-        </div>
         <div class="col-12">
-            <table class="table table-striped table-sm table-responsive-sm" id="completedTasksTable">
-                <tbody>
-                {% for task in completed_tasks %}
-                    {% if task.completionDate %}
-                        <tr>
-                            <td>
-                                <p class="h4"><span class="text-uppercase">{{task.category}}: </span>{{ task.title }}</p>
-                                <div>
-                                    <p>{{task.description|raw}}</p>
-                                    <p class="em">
-                                        <span>Sub tasks completed: </span>
-                                        <span>
-                                        {% for milestone in task.taskMilestones %}
-                                            {{milestone.title}}, 
-                                        {% endfor %}
-                                        </span>
-                                    </p>
-                                </div>
-                                <a class="d-print-none btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
-                            </td>
-                            <td width="30%">
+            <p class="h2 mb-3">Completed Tasks</p>
+            {% for task in completed_tasks %}
+                {% if task.completionDate %}
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                            <p class="h4"><span class="text-uppercase btn btn-lg btn-outline-warning float-right">{{task.category}}</span>{{ task.title }}</p>
+                            <div>
                                 {% set difference = date(task.completionDate).diff(task.startDate) %}
                                 Completed on {{ task.completionDate|date('F j Y') }}. {{ difference.days == 0 ? 'The task was completed on the same day' : 'It took ' ~ difference.days ~ ' days to complete the task.' }}
                                 {% if task.completionDate|date('md') > task.duedate|date('md') %}
-                                    <span class="badge badge-pill badge-danger p-2 text-super">overdue</span>
+                                    <span class="badge badge-pill badge-danger p-2 text-super d-print-none">overdue</span>
                                 {% endif %}
-                            </td>
-                        </tr>
-                    {% endif %}
-                {% else %}
-                    <tr>
-                        <td>no records found</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-12 bg-dark">
-            <p class="h4">Pending Tasks</p>
+                            </div>
+                            <p>{{task.description|raw}}</p>
+                            <div class="text">
+                                <p class="lead">Task Milestones</p>
+                                <ul>
+                                {% for milestone in task.taskMilestones %}
+                                    <li>{{milestone.title}},</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                            <a class="d-print-none btn btn-info float-right" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">view full task details</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p class="h1 text-center text-warning">no records found</p>
+            {% endfor %}
         </div>
         <div class="col-12">
-            <table class="table table-sm table-responsive-sm table-hover" id="pendingTasksTable">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Start Date</th>
-                        <th>Due Date</th>
-                        <th>Completion</th>
-                        <th class="d-print-none">actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for task in pending_tasks %}
-                        <tr>
-                            <td><span class="text-uppercase">{{task.category}}: </span>{{ task.title }}</td>
-                            <td>{{ task.startDate ? task.startDate|date('Y-m-d') : '' }}</td>
-                            <td>
-                                {{ task.duedate|date('F j') }}
-                                {% set duediff = date('now').diff(task.duedate) %}
-                                {% if duediff.days<0 %}
-                                    <span class="badge badge-pill badge-danger p-2 text-super">overdue</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% set completedMilestones = 0 %}
-                                {% set totalMilestones = task.taskMilestones|length %}
-                                {% for milestone in task.taskMilestones %}
-                                    {% if milestone.completed %}
-                                        {% set completedMilestones = completedMilestones + 1 %}
+            <p class="h2 mb-3">Pending Tasks</p>
+            <div class="card-columns">
+                {% for task in pending_tasks %}
+                    <div class="card bg-light">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ task.title }}</h4>
+                            <div class="card-text">
+                                <p>
+                                <span>Task started on {{ task.startDate ? task.startDate|date('F j Y') : '' }}</span>
+                                <span>
+                                    and is due by {{ task.duedate|date('F j Y') }}
+                                    {% set duediff = date('now').diff(task.duedate) %}
+                                    {% if duediff.days<0 %}
+                                        <span class="badge badge-pill badge-danger p-2 text-super">Task is overdue.</span>
                                     {% endif %}
-                                {% endfor %}
-                                {{ (completedMilestones/totalMilestones * 100)|round(1, 'floor')}} %
-                            </td>
-                            <td class="btn-group d-print-none">
-                                <a class="btn btn-info btn-sm" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
-                            </td>
-                        </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="7">no records found</td>
-                    </tr>
+                                </p>
+                                <p>
+                                    {% set completedMilestones = 0 %}
+                                    {% set totalMilestones = task.taskMilestones|length %}
+                                    {% for milestone in task.taskMilestones %}
+                                        {% if milestone.completed %}
+                                            {% set completedMilestones = completedMilestones + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    Milestones completion rate is <span class="btn btn-dark">{{ (completedMilestones/totalMilestones * 100)|round(1, 'floor')}} %</span>
+                                </p>
+                                <a class="btn btn-sm btn-block btn-outline-info d-print-none" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-danger lead">no records found</p>
                 {% endfor %}
-                </tbody>
-            </table>
+            </div>
         </div>
     </div>
 {% endblock %}

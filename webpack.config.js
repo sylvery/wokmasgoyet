@@ -23,7 +23,14 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')
+    .addEntry('app', [
+        './public/build/bootstrap/css/bootstrap.css',
+        './public/css/bootstrap-theme-cosmo.css',
+        './public/build/bootstrap/css/bootstrap-grid.css',
+        './public/css/print.css',
+        './public/css/style.css',
+        './assets/js/app.js',
+    ])
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
@@ -73,6 +80,7 @@ Encore
 Encore
     // ...
     .copyFiles([
+        {from: './node_modules/bootstrap/dist/css/', to: 'bootstrap/css/[path][name].[ext]', pattern: /\.(css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor4/', to: 'ckeditor/[path][name].[ext]', pattern: /\.(js|css)$/, includeSubdirectories: false},
         {from: './node_modules/ckeditor4/adapters', to: 'ckeditor/adapters/[path][name].[ext]'},
         {from: './node_modules/ckeditor4/lang', to: 'ckeditor/lang/[path][name].[ext]'},
