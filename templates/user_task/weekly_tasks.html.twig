@@ -18,17 +18,19 @@
             },
         ]
     } %}
-    <div class="row d-none">
+    <div class="row mb-3">
         <div class="col-12">
             <p class="h2">Summary</p>
+            <ul class="list-group">
             {% for row in comcat %}
                 {% for item in row %}
-                    <p class="h4">{{ item|length > 0 ? row|keys|json_encode()|replace({'[' : '',']' : '','"' : ''}) ~ ' ' ~ item|length ~ ' tasks completed' : ''}}<p>
+                    {{ item|length > 0 ? ('<li class="list-group-item">'~row|keys|json_encode()|replace({'[' : '',']' : '','"' : ''}) ~ ' ' ~ item|length ~ ' completed</li>')|raw : ''}}
                 {% endfor %}
             {% endfor %}
+            </ul>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col-12">
             <p class="h2 mb-3">Completed Tasks</p>
             {% for task in completed_tasks %}

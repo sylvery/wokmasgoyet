@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in{% endblock %}
 
 {% block body %}
     <section class="row">
         <div class="offset-3 col-6">
+        {# <img src="{{asset('asset/img/bg/pexels-negative-space-34090.jpg')}}" alt="" class="img-fluid" /> #}
             <form method="post" class="my-3">
                 {% if error %}
                     <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -43,7 +44,7 @@
                 </button>
                 </div>
                 </div>
-                <a class="text-light small" href="{{path('member_new')}}">register for an account</a>
+                <a class="small" href="{{path('member_new')}}">register for an account</a>
             </form>
         </div>
     </section>

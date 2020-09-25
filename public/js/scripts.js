@@ -1,3 +1,5 @@
+var $ = require('jquery');
+$.alert('help')
 // var $collectionHolder;
 // var $addTagButton = '<button type="button" class="add_comment_link">Add Comment</button>';
 // var $newLinkLi = $('li').append($addTagButton);
