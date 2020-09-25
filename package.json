@@ -12,9 +12,11 @@
     "scripts": {
         "dev-server": "encore dev-server",
         "dev": "encore dev",
-        "watch": "encore dev --watch",
-        "build": "encore production --progress",
-        "heroku-postbuild" : "node_modules/.bin/encore production"
+        "watch-local": "encore dev --watch",
+        "build-local": "encore production --progress",
+        "watch": "webpack -d --watch --config ./webpack.config.js --display-error-details",
+        "build": "webpack -p --config ./webpack.config.js --display-error-details",
+        "heroku-postbuild": "webpack -p --config ./webpack.config.js && php bin/console d:s:u --force"
     },
     "dependencies": {
         "ckeditor4": "^4.15.0",
