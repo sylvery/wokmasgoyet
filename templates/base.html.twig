@@ -4,12 +4,6 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %} | Wok Mas Go Yet</title>
         {{ encore_entry_link_tags('app') }}
-        {# <link rel="stylesheet" href="/css/jquery-ui.css">
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/bootstrap-grid.min.css">
-        <link rel="stylesheet" href="/css/bootstrap-reboot.min.css">
-        <link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" type="text/css" media="print" href="/css/print.css"> #}
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% block stylesheets %}{% endblock %}
     </head>
@@ -21,15 +15,11 @@
         </div>
     </div>
     <div id="date" class="pb-5 container"></div>
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/jquery-ui.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/scripts.js"></script>
+    {{ encore_entry_script_tags('app') }}
     <script>
         $mdate = new Date();
         $('#date').append($mdate);
     </script>
-    {{ encore_entry_script_tags('app') }}
     {% block javascripts %}{% endblock %}
     </body>
 </html>

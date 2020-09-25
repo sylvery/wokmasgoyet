@@ -1,10 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand" href="{{path('home')}}">WMGY</a>
-        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleMainNav" aria-controls="collapsibleMainNav"
-            aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <div class="collapse navbar-collapse" id="collapsibleMainNav">
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 {% if is_granted('ROLE_USER') %}
@@ -12,7 +8,7 @@
                     <a class="nav-link" href="{{path('home')}}">Home</a>
                 </li>
                 <div class="dropdown nav-item open">
-                    <a class="btn btn-info btn-block dropdown-toggle" type="button" id="tasksDropdownId" data-toggle="dropdown" aria-haspopup="true"
+                    <a class="btn btn-block dropdown-toggle" type="button" id="tasksDropdownId" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                                 Tasks
                             </a>
@@ -23,7 +19,7 @@
                     </div>
                 </div>
                 <div class="dropdown nav-item open">
-                    <a class="btn btn-info btn-block dropdown-toggle" type="button" id="categoriesDropdownId" data-toggle="dropdown" aria-haspopup="true"
+                    <a class="btn btn-block dropdown-toggle" type="button" id="categoriesDropdownId" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
                                 Categories
                             </a>

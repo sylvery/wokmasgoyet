@@ -1,5 +1,5 @@
 <div class="row mb-1 py-2">
-    <div class="col-12 btn-group d-flex justify-content-end">
+    <div class="col-12 btn-group d-flex justify-content-end d-print-none">
         {% if actions is defined %}
         {% for item in actions %}
             <span class="d-print-none badge badge-pill badge-{{item.action_class|default('primary')}}">
@@ -12,7 +12,7 @@
         {% endfor %}
         {% endif %}
     </div>
-    <hr class="border-warning col">
+    <hr class="d-print-none border-warning col">
     <div class="col-12 mb-2">
         <span class="h1 {{display_size is defined ? 'display-' ~ display_size : ''}} text-dark">{{ page_title | default('Page Title')}}</span>
     </div>

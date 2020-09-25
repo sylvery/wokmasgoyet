@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Task Details {{ parent() }}{% endblock %}
+{% block title %}Task Details{% endblock %}
 
 {% block body %}
     {% include "main/page_header.html.twig" with {
@@ -32,7 +32,7 @@
     } %}
     <div class="row mb-3">
         <div class="col-12">
-            <div class="card bg-dark">
+            <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ user_task.title }} <span class="small float-right"><span class="small">priority </span><span class="text-{{ user_task.priority == 1 ? 'danger' : user_task.priority == 2 ? 'warning' : 'info' }}">{{ user_task.priority == 1 ? 'high' : user_task.priority == 2 ? 'med' : 'low' }}</span></span></h4>
                     <div class="card-text">

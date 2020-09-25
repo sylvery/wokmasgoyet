@@ -10,7 +10,7 @@ import '../css/app.css';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 import $ from 'jquery';
+import popperjs from 'popper.js';
 import bootstrap from "bootstrap";
-const popperjs = require('popper.js');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
