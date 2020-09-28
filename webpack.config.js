@@ -23,6 +23,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
+    .addEntry('tasknewjs', './assets/js/collections/tasknew.js')
     .addEntry('app', [
         './assets/js/app.js',
         './public/css/bootstrap-theme-cosmo.css',

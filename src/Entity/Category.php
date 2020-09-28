@@ -29,6 +29,11 @@ class Category
      */
     private $tasks;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Member::class, inversedBy="categories")
+     */
+    private $createdBy;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -83,6 +88,18 @@ class Category
                 $task->setCategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?Member
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Member $createdBy): self
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

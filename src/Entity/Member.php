@@ -40,9 +40,15 @@ class Member implements UserInterface
      */
     private $tasks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Category::class, mappedBy="createdBy")
+     */
+    private $categories;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
     
     public function __toString() {
@@ -152,6 +158,37 @@ class Member implements UserInterface
             // set the owning side to null (unless already changed)
             if ($task->getOwner() === $this) {
                 $task->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            // set the owning side to null (unless already changed)
+            if ($category->getCreatedBy() === $this) {
+                $category->setCreatedBy(null);
             }
         }
 

@@ -17,7 +17,7 @@
         {% if form.taskMilestones is defined and form.taskMilestones is not null %}
             <div class="col-12 list-group-flush">
                 {% for milestone in form.taskMilestones %}
-                    <div class="list-group-item list-group-item-action bg-{{milestone.completed == true ? 'success' : 'warning' }}">{{ form_row(milestone, {'attr': {'class': 'row'}}) }}</div>
+                    <div class="list-group-item list-group-item-action border-bottom border-{{milestone.completed ? 'success' : 'warning' }}">{{ form_row(milestone, {'attr': {'class': 'row'}}) }}</div>
                 {% endfor %}
             </div>
         {% else %}
