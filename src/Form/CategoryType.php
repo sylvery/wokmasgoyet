@@ -19,12 +19,6 @@ class CategoryType extends AbstractType
                 'attr' => [ 'class' => 'form-control'],
                 'label_attr' => [ 'class' => 'small'],
             ])
-            ->add('createdBy', EntityType::class, [
-                'label' => 'Owner',
-                'class' => Member::class,
-                'attr' => [ 'class' => 'form-control'],
-                'label_attr' => [ 'class' => 'small'],
-            ])
         ;
     }
 

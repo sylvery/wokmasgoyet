@@ -21,7 +21,7 @@ class CategoryController extends AbstractController
     public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $categoryRepository->findBy(['createdBy' => $this->getUser()]),
         ]);
     }
 
@@ -35,6 +35,7 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $category->setCreatedBy($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($category);
             $entityManager->flush();
@@ -53,6 +54,9 @@ class CategoryController extends AbstractController
      */
     public function show(Category $category): Response
     {
+        if ( $category->getCreatedBy() != $this->getUser()) {
+            return $this->redirectToRoute('category_new');
+        }
         return $this->render('category/show.html.twig', [
             'category' => $category,
         ]);
@@ -63,6 +67,9 @@ class CategoryController extends AbstractController
      */
     public function edit(Request $request, Category $category): Response
     {
+        if ( $category->getCreatedBy() != $this->getUser()) {
+            return $this->redirectToRoute('category_new');
+        }
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
@@ -83,6 +90,9 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category): Response
     {
+        if ( $category->getCreatedBy() != $this->getUser()) {
+            return $this->redirectToRoute('category_new');
+        }
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($category);
