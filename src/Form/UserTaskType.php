@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Category;
 use App\Entity\UserTask;
+use App\Repository\CategoryRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -13,9 +14,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Security;
 
 class UserTaskType extends AbstractType
 {
+    private $catrep;
+    private $secu;
+    public function __construct(CategoryRepository $categoryRepository, Security $security)
+    {
+        $this->catrep = $categoryRepository;
+        $this->secu = $security;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -36,6 +46,7 @@ class UserTaskType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
+                'choices' => $this->catrep->findBy(['createdBy' => $this->secu->getUser()]),
                 'attr' => [ 'class' => 'form-control'],
                 'label_attr' => [ 'class' => 'small'],
             ])

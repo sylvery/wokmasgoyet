@@ -63,18 +63,11 @@ class UserTaskController extends AbstractController
         foreach ($cats as $cat) {
             array_push($completedByCategory,[$cat->getName() => []]);
         }
-        foreach ($completedTasks as $key => $task) {
+        foreach ($completedTasks as $task) {
             foreach ($completedByCategory as $catekey => $cateval) {
-                // var_dump(
-                //     key($cateval),
-                //     // $task->getCategory()->getName(),
-                // );
                 if (key($cateval) === $task->getCategory()->getName()) {
                     array_push($completedByCategory[$catekey][key($cateval)],$task);
                 }
-            }
-            foreach ($task as $singletask) {
-                var_dump($singletask);
             }
         }
         return $this->render('user_task/weekly_tasks.html.twig', [
