@@ -18,12 +18,12 @@ use Symfony\Component\Security\Core\Security;
 
 class UserTaskType extends AbstractType
 {
-    private $catrep;
-    private $secu;
+    private $categoryRepository;
+    private $security;
     public function __construct(CategoryRepository $categoryRepository, Security $security)
     {
-        $this->catrep = $categoryRepository;
-        $this->secu = $security;
+        $this->categoryRepository = $categoryRepository;
+        $this->security = $security;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -46,7 +46,7 @@ class UserTaskType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choices' => $this->catrep->findBy(['createdBy' => $this->secu->getUser()]),
+                'choices' => $this->categoryRepository->findBy(['createdBy' => $this->security->getUser()]),
                 'attr' => [ 'class' => 'form-control'],
                 'label_attr' => [ 'class' => 'small'],
             ])
