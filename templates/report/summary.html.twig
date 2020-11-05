@@ -1,0 +1,81 @@
+<div class="row mb-3">
+    <div class="col-12">
+        <p class="h2">Summary</p>
+        <ul class="list-group">
+        {% for row in completed_tasks_by_category %}
+            {% for item in row %}
+                {{ item|length > 0 ? ('<li class="list-group-item">'~row|keys|json_encode()|replace({'[' : '',']' : '','"' : ''}) ~ ' ' ~ item|length ~ ' completed</li>')|raw : ''}}
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="row mb-3">
+    <div class="col-12">
+        <p class="h2 mb-3">Completed Tasks</p>
+        {% for task in completed_tasks %}
+            {% if task.completionDate %}
+                <div class="card bg-light mb-3">
+                    <div class="card-body">
+                        <p class="h4"><span class="text-uppercase btn btn-lg btn-outline-warning float-right">{{task.category}}</span>{{ task.title }}</p>
+                        <div>
+                            {% set difference = date(task.completionDate).diff(task.startDate) %}
+                            Completed on {{ task.completionDate|date('F j Y') }}. {{ difference.days == 0 ? 'The task was completed on the same day' : 'It took ' ~ difference.days ~ ' days to complete the task.' }}
+                            {% if task.completionDate|date('md') > task.duedate|date('md') %}
+                                <span class="badge badge-pill badge-danger p-2 text-super d-print-none">overdue</span>
+                            {% endif %}
+                        </div>
+                        <p>{{task.description|raw}}</p>
+                        <div class="text">
+                            <p class="lead">Task Milestones</p>
+                            <ul>
+                            {% for milestone in task.taskMilestones %}
+                                <li>{{milestone.title}},</li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                        <a class="d-print-none btn btn-info float-right" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">view full task details</a>
+                    </div>
+                </div>
+            {% endif %}
+        {% else %}
+            <p class="h1 text-center text-warning">no records found</p>
+        {% endfor %}
+    </div>
+    <div class="col-12">
+        <p class="h2 mb-3">Pending Tasks</p>
+        <div class="card-columns">
+            {% for task in pending_tasks %}
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ task.title }}</h4>
+                        <div class="card-text">
+                            <p>
+                            <span>Task started on {{ task.startDate ? task.startDate|date('F j Y') : '' }}</span>
+                            <span>
+                                and is due by {{ task.duedate|date('F j Y') }}
+                                {% set duediff = date('now').diff(task.duedate) %}
+                                {% if duediff.days<0 %}
+                                    <span class="badge badge-pill badge-danger p-2 text-super">Task is overdue.</span>
+                                {% endif %}
+                            </p>
+                            <p>
+                                {% set completedMilestones = 0 %}
+                                {% set totalMilestones = task.taskMilestones|length %}
+                                {% for milestone in task.taskMilestones %}
+                                    {% if milestone.completed %}
+                                        {% set completedMilestones = completedMilestones + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                Milestones completion rate is <span class="btn btn-dark">{{ (completedMilestones/totalMilestones * 100)|round(1, 'floor')}} %</span>
+                            </p>
+                            <a class="btn btn-sm btn-block btn-outline-info d-print-none" role="button" href="{{ path('user_task_show', {'id': task.id}) }}">show</a>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-danger lead">no records found</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>

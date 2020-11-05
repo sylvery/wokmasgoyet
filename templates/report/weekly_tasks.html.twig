@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Weekly Report{% endblock %}
+
+{% block body %}
+    {% include "main/page_header.html.twig" with {
+        page_title: 'Weekly Report',
+        display_size: 1,
+        page_subtitle: 'Find below a comprehensive summary of the tasks that were completed during the week as well as some pending tasks which have been not been completed and have been scheduled for the following week',
+        actions: [
+            {
+                action_route: 'user_task_new',
+                action_class: 'success',
+                label: 'new task',
+            },{
+                action_route: 'home',
+                label: 'back to home',
+            },
+        ]
+    } %}
+    {% include "report/summary.html.twig" %}
+{% endblock %}

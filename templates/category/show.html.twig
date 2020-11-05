@@ -43,4 +43,13 @@
             </table>
         </div>
     </section>
+    <div class="row">
+        <div class="col">
+            <ul class="list-group">
+                {% for task in category.tasks %}
+                    <li class="list-group-item">{{task}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

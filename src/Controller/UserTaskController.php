@@ -35,47 +35,6 @@ class UserTaskController extends AbstractController
             // 'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
         ]);
     }
-    
-    /**
-     * @Route("/weekly", name="user_task_weekly", methods={"GET"})
-     */
-    public function weekly(UserTaskRepository $userTaskRepository, CategoryRepository $catRep): Response
-    {
-        $endDate = new DateTime('now', new DateTimeZone('Pacific/Port_Moresby'));
-        $startDate = $endDate->sub(new DateInterval('P7D'));
-        $cats = $catRep->findAll();
-        $completedTasks = $userTaskRepository->createQueryBuilder('u')
-            ->where('u.completionDate >= :valA')
-            ->andWhere('u.owner = '.$this->getUser()->getId())
-            ->setParameter('valA', $startDate)
-            ->orderBy('u.id','ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-        $pendingTasks = $userTaskRepository->createQueryBuilder('u')
-            ->where('u.completionDate is null')
-            ->andWhere('u.owner = '.$this->getUser()->getId())
-            ->orderBy('u.id','ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-        $completedByCategory=[];
-        foreach ($cats as $cat) {
-            array_push($completedByCategory,[$cat->getName() => []]);
-        }
-        foreach ($completedTasks as $task) {
-            foreach ($completedByCategory as $catekey => $cateval) {
-                if (key($cateval) === $task->getCategory()->getName()) {
-                    array_push($completedByCategory[$catekey][key($cateval)],$task);
-                }
-            }
-        }
-        return $this->render('user_task/weekly_tasks.html.twig', [
-            'completed_tasks' => $completedTasks,
-            'pending_tasks' => $pendingTasks,
-            'comcat' => $completedByCategory,
-        ]);
-    }
 
     /**
      * @Route("/new", name="user_task_new", methods={"GET","POST"})
