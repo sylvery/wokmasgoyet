@@ -47,7 +47,7 @@
         <div class="col">
             <ul class="list-group">
                 {% for task in category.tasks %}
-                    <li class="list-group-item">{{task}}</li>
+                    <li class="list-group-item"><a href="{{path('user_task_show',{id: task.id})}}">{{task}}</a></li>
                 {% endfor %}
             </ul>
         </div>

@@ -4,9 +4,9 @@
 
 {% block body %}
     {% include "main/page_header.html.twig" with {
-        page_title: 'Weekly Report',
-        display_size: 1,
-        page_subtitle: 'Find below a comprehensive summary of the tasks that were completed during the week as well as some pending tasks which have been not been completed and have been scheduled for the following week',
+        page_title: pageTitle~' Report',
+        display_size: 3,
+        page_subtitle: 'Find below a comprehensive summary of the tasks that were completed during the '~pageTitle~' routines as well as some pending tasks which have been not been completed',
         actions: [
             {
                 action_route: 'user_task_new',

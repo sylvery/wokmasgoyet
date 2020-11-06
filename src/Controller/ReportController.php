@@ -11,10 +11,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/report")
+ */
 class ReportController extends AbstractController
 {
     /**
-     * @Route("/report", name="report")
+     * @Route("/", name="report")
      */
     public function index(): Response
     {
@@ -34,16 +37,20 @@ class ReportController extends AbstractController
             $startDate = new DateTime($req['startDate'], new DateTimeZone('Pacific/Port_Moresby'));
             $endDate = new DateTime($req['endDate'], new DateTimeZone('Pacific/Port_Moresby'));
             // dump($startDate, $endDate); exit;
-        } else {
-            $endDate = new DateTime('now', new DateTimeZone('Pacific/Port_Moresby'));
-            $startDate = $endDate->sub(new DateInterval('P7D'));
-        }
+        } 
+        // @todo keep working on this one
+        // if ($req['reportType'] === 'weekly') {
+        //     $startDate = $req['startDate'];
+        //     $endDate = $endDate->sub(new DateInterval('P7D'));
+        // } else if ($req['reportType'] === 'monthly')
 
         $cats = $catRep->findAll();
         $completedTasks = $userTaskRepository->createQueryBuilder('u')
             ->where('u.completionDate >= :valA')
+            ->andWhere('u.completionDate <= :valB')
             ->andWhere('u.owner = '.$this->getUser()->getId())
             ->setParameter('valA', $startDate)
+            ->setParameter('valB', $endDate)
             ->orderBy('u.id','ASC')
             ->getQuery()
             ->getResult()
@@ -66,10 +73,11 @@ class ReportController extends AbstractController
                 }
             }
         }
-        return $this->render('report/weekly_tasks.html.twig', [
+        return $this->render('report/layout.html.twig', [
             'completed_tasks' => $completedTasks,
             'pending_tasks' => $pendingTasks,
             'completed_tasks_by_category' => $completedByCategory,
+            'pageTitle' => $req['reportType'],
         ]);
     }
 

@@ -3,18 +3,31 @@
 {% block title %}Report{% endblock %}
 
 {% block body %}
+    <div class="row py-3">
+        <div class="col-12">
+            <p class="h1">Tasks Report Generator</p>
+        </div>
+    </div>
     <form action="{{path('user_task_weekly')}}" method="post">
-        <div class="input-group row no-gutters">
+        <div class="input-group row no-gutters mb-3">
             <label for="startDate" class="col-sm-3 col-form-label input-group-prepend input-group-text pl-3">Start Date</label>
             <div class="col-sm-9">
                 <input type="date" class="form-control" name="startDate" id="startDate" placeholder="">
             </div>
         </div>
-        <div class="input-group row no-gutters">
+        <div class="input-group row no-gutters mb-3">
             <label for="endDate" class="col-sm-3 col-form-label input-group-prepend input-group-text pl-3">End Date</label>
             <div class="col-sm-9">
                 <input type="date" class="form-control" name="endDate" id="endDate" placeholder="">
             </div>
+        </div>
+        <div class="input-group row no-gutters mb-3">
+          <label class="col-sm-3 col-form-label input-group-prepend input-group-text pl-3" for="reportType">Report Type</label>
+          <select class="form-control col-sm-9" name="reportType" id="reportType">
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
+          </select>
         </div>
         <div class="form-group row">
             <div class="col-sm-12">
