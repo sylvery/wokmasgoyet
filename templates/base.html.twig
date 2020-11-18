@@ -6,7 +6,7 @@
         <title>{% block title %}{% endblock %} | Wok Mas Go Yet</title>
         {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}{% endblock %}
-        <script data-ad-client="ca-pub-3511968554265090" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        {# {{ encore_entry_script_tags('ga') }} #}
     </head>
     <body class="pb-5">
     <div class="container-fluid px-0">
@@ -15,12 +15,11 @@
             {% block body %}{% endblock %}
         </div>
     </div>
-    <div id="date" class="pb-5 container"></div>
     {{ encore_entry_script_tags('app') }}
-    <script>
+    {# <script>
         $mdate = new Date();
         $('#date').append($mdate);
-    </script>
+    </script> #}
     {% block javascripts %}{% endblock %}
     </body>
 </html>

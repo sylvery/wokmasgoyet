@@ -63,8 +63,22 @@
             </div>
         </div>
     </div>
-
+    <div class="row float-left offset-md-5">
+        <div id="pomotimer" class="col">
+            <div id="countdown-timer" class="bg-danger text-center display-4 text-light p-5 border-bottom border-dark rounded-egg rounded-circle">
+                <span id="pomoTimeMinutes"></span>:<span id="pomoTimeSeconds">00</span>
+            </div>
+            <div id="control-buttons" class="col-12 btn-group px-0">
+                <button id="startPomo" class="btn btn-sm btn-success">Start</button>
+                <button id="stopPomo" class="btn btn-sm btn-warning d-none">Stop</button>
+                <button id="resetPomo" class="btn btn-sm btn-info d-none">Reset</button>
+            </div>
+        </div>
+    </div>
     {% if is_granted('ROLE_ADMIN') %}
         {{ include('user_task/_delete_form.html.twig') }}
     {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('pomo') }}
 {% endblock %}

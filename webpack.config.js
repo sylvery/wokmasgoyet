@@ -30,7 +30,8 @@ Encore
         './public/css/print.css',
         './public/css/style.css',
     ])
-    //.addEntry('page1', './assets/js/page1.js')
+    .addEntry('ga', './assets/js/ga.js')
+    .addEntry('pomo', './assets/js/pomo-timer.js')
     //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -70,7 +71,7 @@ Encore
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
