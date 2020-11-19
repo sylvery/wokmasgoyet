@@ -26,13 +26,64 @@ class UserTaskController extends AbstractController
      */
     public function index(UserTaskRepository $userTaskRepository): Response
     {
+        $tasks = $userTaskRepository->createQueryBuilder('u')
+            ->where('u.owner = '.$this->getUser()->getId())
+            // ->setMaxResults(5)
+            ->orderBy('u.updatedAt','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+        $pendingTasks = [];
+        $completedTasks = [];
+        foreach ($tasks as $task) {
+            if ($task->getCompletionDate() and count($completedTasks) < 10) {
+                array_push($completedTasks, $task);
+            }
+            if (!$task->getCompletionDate() and count($pendingTasks) < 10) {
+                array_push($pendingTasks, $task);
+            }
+        }
         return $this->render('user_task/index.html.twig', [
-            'tasks' => $userTaskRepository->createQueryBuilder('u')
-                ->where('u.owner = '.$this->getUser()->getId())
-                ->getQuery()
-                ->getResult()
-            ,
+            // 'tasks' => $tasks,
+            'pendingTasks' => $pendingTasks,
+            'completedTasks' => $completedTasks,
             // 'user_tasks' => $userTaskRepository->findAll($orderBy = ['dueDate' => 'asc']),
+        ]);
+    }
+
+    /**
+     * @Route("/completed", name="user_task_completed", methods={"GET","POST"})
+     */
+    public function completed(UserTaskRepository $userTaskRepository): Response
+    {
+        $tasks = $userTaskRepository->createQueryBuilder('u')
+            ->where('u.owner = '.$this->getUser()->getId())
+            ->andWhere('u.completionDate is not null')
+            // ->setMaxResults(5)
+            ->orderBy('u.updatedAt','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+        return $this->render('user_task/index.html.twig', [
+            'tasks' => $tasks,
+        ]);
+    }
+
+    /**
+     * @Route("/pending", name="user_task_pending", methods={"GET","POST"})
+     */
+    public function pending(UserTaskRepository $userTaskRepository): Response
+    {
+        $tasks = $userTaskRepository->createQueryBuilder('u')
+            ->where('u.owner = '.$this->getUser()->getId())
+            ->andWhere('u.completionDate is null')
+            // ->setMaxResults(5)
+            ->orderBy('u.updatedAt','DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+        return $this->render('user_task/index.html.twig', [
+            'tasks' => $tasks,
         ]);
     }
 
@@ -54,7 +105,10 @@ class UserTaskController extends AbstractController
                     $entityManager->persist($milestone);
                 }
             }
-            $userTask->setOwner($this->getUser());
+            $userTask
+                ->setOwner($this->getUser())
+                ->setUpdatedAt(new DateTime('now', new DateTimeZone('Pacific/Port_Moresby')))
+            ;
             $entityManager->persist($userTask);
             $entityManager->flush();
 
@@ -105,6 +159,7 @@ class UserTaskController extends AbstractController
                     }
                 }
             }
+            $userTask->setUpdatedAt(new DateTime('now', new DateTimeZone('Pacific/Port_Moresby')));
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_task_show', ['id' => $userTask->getId()]);

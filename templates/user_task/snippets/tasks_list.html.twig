@@ -1,0 +1,28 @@
+<div class="{{colClass|default('col-md-12')}} my-2 py-3">
+    <div>
+        <span class="text-warning small">{{listTitle|default('All Completed Tasks')}}</span>
+    </div>
+    <div class="list-group list-group-flush">
+        {% for item in tasks %}
+            <a href="{{path('user_task_show',{id: item.id})}}" class="list-group-item list-group-item-action list-group-item-primary mb-1">
+            <div class="row no-gutter">
+                <div class="col-2">
+                    {{loop.index}} {{item.priority == 1 ? '&#10022;' : item.priority == 2 ? '&#10022;&#10022;' : '&#10022;&#10022;&#10022;'}}
+                </div>
+                <div class="col-6">
+                    {{ item.title }}
+                </div>
+                <div class="col-4 small">
+                    {{ item.completionDate ? 'completed '~item.completionDate|date('jS M') : 'due '~item.duedate|date('jS M') }} | {{ item.category }}
+                    {# {% if date()|date('md') > item.duedate|date('md') %}
+                        <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
+                    {% endif %} #}
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+        {% if moreLink is defined %}
+            <a href="{{path(moreLink)}}" class="btn btn-primary col">view all tasks</a>
+        {% endif %}
+    </div>
+</div>

@@ -21,7 +21,7 @@ $(function () {
         function secondsInterval(){
             var $seconds = $multiple-1;
             $secondsInterval = setInterval((e) => {
-                console.log($seconds);
+                // console.log($seconds);
                 $timerSeconds[0].innerText = $seconds;
                 $seconds -= 1;
             }, 1000);
@@ -29,7 +29,7 @@ $(function () {
         secondsInterval();
         var $minutesInterval = setInterval(() => {
             $pomominutes = $pomominutes-1;
-            console.log($pomominutes);
+            // console.log($pomominutes);
             $timerMinutes[0].innerText = $pomominutes;
             $timerSeconds[0].innerText = 0;
             clearInterval($secondsInterval)
