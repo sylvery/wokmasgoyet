@@ -11,6 +11,9 @@
     <body class="pb-5">
     <div class="container-fluid px-0">
         {% include "main/nav.html.twig" %}
+        {% block pomotimer %}
+            {% include "snippets/pomotimer.html.twig" %}
+        {% endblock %}
         <div class="container">
             {% block body %}{% endblock %}
         </div>
@@ -20,6 +23,7 @@
         $mdate = new Date();
         $('#date').append($mdate);
     </script> #}
+    {{ encore_entry_script_tags('pomo') }}
     {% block javascripts %}{% endblock %}
     </body>
 </html>

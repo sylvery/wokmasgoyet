@@ -9,7 +9,7 @@
             {
                 action_route: 'category_edit',
                 action_class: 'warning',
-                label: 'edit category',
+                label: 'update category',
                 link_options: {
                     id: category.id
                 }
@@ -21,18 +21,10 @@
                 action_route: 'user_task_new',
                 action_class: 'info',
                 label: 'add new task',
-            },{
-                action_route: 'category_index',
-                action_class: 'primary',
-                label: 'back to categories list',
-            },{
-                action_route: 'user_task_index',
-                action_class: 'secondary',
-                label: 'go to tasks',
             },
         ]
     } %}
-    <section class="row">
+    {# <section class="row">
         <div class="col">
             <table class="table table-sm table-striped">
                 <tbody>
@@ -47,8 +39,8 @@
                 </tbody>
             </table>
         </div>
-    </section>
-    <div class="row">
+    </section> #}
+    {# <div class="row">
         <div class="col">
             <ul class="list-group">
                 {% for task in category.tasks %}
@@ -56,5 +48,6 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>
+    </div> #}
+    {% include "snippets/tasks_list.html.twig" with { listTitle: 'Tasks in this category', tasks: category.tasks, colClass: 'col-12'} %}
 {% endblock %}

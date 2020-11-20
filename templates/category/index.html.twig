@@ -22,31 +22,25 @@
     } %}
     <section class="row">
         <div class="col-12">
-            <table class="table table-sm table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Tasks</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div class="card-columns">
                 {% for category in categories %}
-                    <tr>
-                        <td>{{ category.name }}</td>
-                        <td>{{ category.tasks.count }}</td>
-                        <td class="btn-group">
-                            <a class="btn btn-sm btn-info" href="{{ path('category_show', {'id': category.id}) }}">show</a>
-                            <a class="btn btn-sm btn-warning" href="{{ path('category_edit', {'id': category.id}) }}">edit</a>
-                        </td>
-                    </tr>
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">{{ category.name}}</h4>
+                            <div class="card-text">
+                                <p class="text-muted">There are {{category.tasks.count}} tasks in this category.</p>
+                            </div>
+                        </div>
+                        <a class="card-footer bg-info btn-block btn btn-sm btn-info" href="{{ path('category_show', {'id': category.id}) }}">show</a>
+                            {# <a class="btn btn-sm row-cols-6 btn-warning" href="{{ path('category_edit', {'id': category.id}) }}">edit</a> #}
+                    </div>
                 {% else %}
-                    <tr>
-                        <td colspan="3">no records found</td>
-                    </tr>
+                <div class="col">
+                    <p class="h1 display-4 text-warning">No Categories found</p>
+                    <a class="btn btn-success btn-lg" href="{{path('category_new')}}">Add new category</a>
+                </div>
                 {% endfor %}
-                </tbody>
-            </table>
+            </div>
         </div>
     </section>
 {% endblock %}

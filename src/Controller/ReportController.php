@@ -27,9 +27,9 @@ class ReportController extends AbstractController
     }
 
     /**
-     * @Route("/weekly", name="user_task_weekly", methods={"GET","POST"})
+     * @Route("/results", name="report_results", methods={"GET","POST"})
      */
-    public function weekly(UserTaskRepository $userTaskRepository, CategoryRepository $catRep): Response
+    public function results(UserTaskRepository $userTaskRepository, CategoryRepository $catRep): Response
     {
         $req=$_POST;
         // dump($req); exit;

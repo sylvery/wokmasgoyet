@@ -20,13 +20,13 @@
     } %}
     <section class="row mb-3">
         {% if tasks is defined%}
-            {% include "user_task/snippets/tasks_list.html.twig" with { listTitle: 'All Completed Tasks'} %}
+            {% include "snippets/tasks_list.html.twig" with { listTitle: 'Your list of Tasks'} %}
         {% endif %}
         {% if pendingTasks is defined %}
-            {% include "user_task/snippets/tasks_list.html.twig" with { listTitle: 'Recently Updated Pending Tasks', tasks: pendingTasks, moreLink: 'user_task_pending', colClass: 'col-sm-6'} %}
+            {% include "snippets/tasks_list.html.twig" with { listTitle: 'Your Recently Updated Pending Tasks', tasks: pendingTasks, moreLink: 'user_task_pending', colClass: 'col-sm-6'} %}
         {% endif %}
         {% if completedTasks is defined %}
-            {% include "user_task/snippets/tasks_list.html.twig" with { listTitle: 'Recently Completed Tasks', tasks: completedTasks, moreLink: 'user_task_completed', colClass: 'col-sm-6'} %}
+            {% include "snippets/tasks_list.html.twig" with { listTitle: 'Your Recently Completed Tasks', tasks: completedTasks, moreLink: 'user_task_completed', colClass: 'col-sm-6'} %}
         {% endif %}
     </section>
 {% endblock %}

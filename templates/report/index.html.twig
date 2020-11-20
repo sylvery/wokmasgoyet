@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Report{% endblock %}
+{% block pomotimer %}{% endblock %}
 
 {% block body %}
     <div class="row py-3">
@@ -8,7 +9,7 @@
             <p class="h1">Tasks Report Generator</p>
         </div>
     </div>
-    <form action="{{path('user_task_weekly')}}" method="post">
+    <form action="{{path('report_results')}}" method="post">
         <div class="input-group row no-gutters mb-3">
             <label for="startDate" class="col-sm-3 col-form-label input-group-prepend input-group-text pl-3">Start Date</label>
             <div class="col-sm-9">
