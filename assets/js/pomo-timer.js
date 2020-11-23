@@ -15,8 +15,9 @@ $(function () {
         // $stop.removeClass('d-none')
         // $reset.removeClass('d-none')
         var $pomominutes = 24;
-        const $multiple = 60;
+        const $multiple = 59;
         $timerMinutes[0].innerText = $pomominutes;
+        $timerSeconds[0].innerText = $multiple;
         var $secondsInterval;
         function secondsInterval(){
             var $seconds = $multiple-1;
