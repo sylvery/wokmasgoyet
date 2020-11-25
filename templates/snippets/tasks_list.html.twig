@@ -4,16 +4,33 @@
     </div>
     <div class="list-group list-group-flush">
         {% for item in tasks %}
+            {% set completedMilestones = 0 %}
+            {% set totalMilestones = item.taskMilestones|length %}
+            {% for milestone in item.taskMilestones %}
+                {% if milestone.completed %}
+                    {% set completedMilestones = completedMilestones + 1 %}
+                {% endif %}
+            {% endfor %}
+            {% if totalMilestones == 0 %}
+                {% set totalMilestones = 1 %}
+            {% endif %}
             <a href="{{path('user_task_show',{id: item.id})}}" class="list-group-item list-group-item-action list-group-item-secondary mb-1">
             <div class="row no-gutter">
                 <div class="col-2">
                     {#loop.index#} {{item.priority == 1 ? '&#10022;' : item.priority == 2 ? '&#10022;&#10022;' : '&#10022;&#10022;&#10022;'}}
                 </div>
                 <div class="col-6">
-                    {{ item.title }}
+                    <p>{{ item.title }}</p>
                 </div>
                 <div class="col-4 small">
-                    {{ item.completionDate ? 'completed '~item.completionDate|date('jS M') : 'due '~item.duedate|date('jS M') }} | {{ item.category }}
+                    {% if item.completionDate %}
+                        <span>Completed {{ item.completionDate|date('jS M') }}</span><br>
+                    {% else %}
+                        <span>{{ (completedMilestones/totalMilestones * 100)|round(1, 'floor') }} % completed</span><br>
+                        <span>Due {{ item.duedate|date('jS M') }}</span><br>
+                    {% endif %}
+                    {# <span>{{ item.completionDate ? 'completed ' ~  : }}</span><br /> #}
+                    <span>{{ item.category }}</span>
                     {# {% if date()|date('md') > item.duedate|date('md') %}
                         <span class="badge badge-pill badge-danger p-2 small text-super">overdue</span>
                     {% endif %} #}
