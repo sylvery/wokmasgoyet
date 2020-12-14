@@ -49,5 +49,8 @@
             </ul>
         </div>
     </div> #}
-    {% include "snippets/tasks_list.html.twig" with { listTitle: 'Tasks in this category', tasks: category.tasks, colClass: 'col-12'} %}
+    <div class="row">
+        {% include "snippets/tasks_list.html.twig" with { listTitle: 'Tasks that are pending in this category', tasks: pending, colClass: 'col-8'} %}
+        {% include "snippets/tasks_list.html.twig" with { listTitle: 'Tasks that have been completed in this category', tasks: completed, colClass: 'col-4'} %}
+    </div>
 {% endblock %}

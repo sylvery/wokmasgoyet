@@ -57,8 +57,20 @@ class CategoryController extends AbstractController
         if ( $category->getCreatedBy() != $this->getUser()) {
             return $this->redirectToRoute('category_new');
         }
+        $pendingTasks = [];
+        $completedTasks = [];
+        foreach ($category->getTasks() as $task) {
+            if ($task->getCompletionDate() and count($completedTasks) < 10) {
+                array_push($completedTasks, $task);
+            }
+            if (!$task->getCompletionDate() and count($pendingTasks) < 10) {
+                array_push($pendingTasks, $task);
+            }
+        }
         return $this->render('category/show.html.twig', [
             'category' => $category,
+            'completed' => $completedTasks,
+            'pending' => $pendingTasks,
         ]);
     }
 
