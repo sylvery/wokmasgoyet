@@ -34,6 +34,11 @@ class Category
      */
     private $createdBy;
 
+    /**
+     * @ORM\Column(type="string", length=12, nullable=true)
+     */
+    private $color;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -100,6 +105,18 @@ class Category
     public function setCreatedBy(?Member $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }
